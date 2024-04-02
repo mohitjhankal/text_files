@@ -1,0 +1,92 @@
+
+///// connection with postgresql db from jenkins pipeline
+pipeline {
+    agent any
+ 
+    environment {
+        DATABASE_USER = 'postgres'
+        DATABASE_PASSWORD = 'root'
+        DATABASE_NAME = 'task'
+        DATABASE_HOST = 'localhost'
+        DATABASE_PORT = '5432'
+        POSTGRES_BIN_PATH = 'C:\\Program Files\\PostgreSQL\\16\\bin'  // bin path for postgres
+    }
+
+    stages {
+        stage('Connect to PostgreSQL') {
+            steps {
+                script {
+                    // Example: Print PostgreSQL version
+                    def psqlCommand = """
+                        SET PGPASSWORD=${DATABASE_PASSWORD}
+                        "${POSTGRES_BIN_PATH}\\psql" -U ${DATABASE_USER} -h ${DATABASE_HOST} -p ${DATABASE_PORT} -d ${DATABASE_NAME} -c "SELECT version();"
+                    """
+                    
+                    // Run the psql command
+                    bat(script: psqlCommand)
+                }
+            }
+        }
+    }
+}
+
+
+//// connection and CRUD operation
+
+pipeline {
+    agent any
+    
+    environment {
+        DATABASE_USER = 'postgres'
+        DATABASE_PASSWORD = 'root'
+        DATABASE_NAME = 'task'
+        DATABASE_HOST = 'localhost'
+        DATABASE_PORT = '5432'
+        POSTGRES_BIN_PATH = 'C:\\Program Files\\PostgreSQL\\16\\bin'  // bin path for PostgreSQL
+    }
+
+    stages {
+        stage('Read Data') {
+            steps {
+                script {
+                    def readDataQuery = """
+                        SET PGPASSWORD=${DATABASE_PASSWORD}
+                        "${POSTGRES_BIN_PATH}\\psql" -U ${DATABASE_USER} -h ${DATABASE_HOST} -p ${DATABASE_PORT} -d ${DATABASE_NAME} -c "SELECT * FROM ftp_client_data;"
+                    """
+                    
+                    // Run the SQL query to read data from the table
+                    bat(script: readDataQuery)
+                }
+            }
+        }
+
+        stage('Insert Data') {
+            steps {
+                script {
+                    def insertDataQuery = """
+                        SET PGPASSWORD=${DATABASE_PASSWORD}
+                        "${POSTGRES_BIN_PATH}\\psql" -U ${DATABASE_USER} -h ${DATABASE_HOST} -p ${DATABASE_PORT} -d ${DATABASE_NAME} -c "INSERT INTO ftp_client_data (client_name, ftp_file_path, ftp_host, ftp_password, ftp_port, ftp_username, sftp_file_path, sftp_host, sftp_password, sftp_port, sftp_username, file_data) VALUES ('karan kumar', 'public_html/', 'mywebsite.org', 'MyPassword321', 2244, 'MyUsername321', 'public_html/', 'example.cmo', 'password', 5432, 'martina', null);"
+                    """
+                    
+                    // Run the SQL query to insert data into the table
+                    bat(script: insertDataQuery)
+                }
+            }
+        }
+        
+        stage('Delete Data') {
+            steps {
+                script {
+                    def deleteDataQuery = """
+                        SET PGPASSWORD=${DATABASE_PASSWORD}
+                        "${POSTGRES_BIN_PATH}\\psql" -U ${DATABASE_USER} -h ${DATABASE_HOST} -p ${DATABASE_PORT} -d ${DATABASE_NAME} -c "DELETE FROM ftp_client_data WHERE id = 7;"
+                    """
+                    
+                    // Run the SQL query to delete data from the table
+                    bat(script: deleteDataQuery)
+                }
+            }
+        }
+    }
+}
+

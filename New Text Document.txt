@@ -1,0 +1,56 @@
+INSERT INTO ftp_client_data (client_name,ftp_file_path,ftp_host,ftp_password,ftp_port,ftp_username,sftp_file_path,sftp_host,sftp_password,sftp_port,sftp_username,file_data)
+VALUES ('James David','public_html/','mywebsite.org','MyPassword321',3333,'MyUsername321','public_html/','example.cmo','password',4321,'martin',null)
+
+/// Oauth2 basic configuration
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    public static final String ADMIN = "ROLE_ADMIN";
+
+    private static final String[] AUTH_WHITELIST = {
+        "/actuator/**",
+    };
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
+        http
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .formLogin().disable()
+            .authorizeHttpRequests(requests -> requests
+                .requestMatchers(AUTH_WHITELIST).permitAll()
+                .requestMatchers("/api/test/**").hasAnyAuthority(ADMIN)
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {
+                jwt.decoder(jwtDecoder);
+            }));
+
+        return http.build();
+    }
+}}
+
+
+//// this is used to encode username and password and send in to headers AUTHORIZATION
+private HttpHeaders createHeaders(String username, String password) {
+        HttpHeaders headers = new HttpHeaders();
+        String auth = username + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
+        String authHeader = BASIC + " " + new String(encodedAuth);
+        headers.set(AUTHORIZATION, authHeader);
+        return headers;
+    }
+
+
+
+
+

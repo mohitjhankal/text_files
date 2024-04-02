@@ -1,0 +1,6 @@
+username : WebAPI_Integration
+password : O1TbO7Hgg74xCtbaXg0kv2vGliHvso
+
+uri : https://dmmuat.vodafone.myvbmd.com
+
+https://dmmuat.vodafone.myvbmd.com/api/itsm/search.ws?&query=SELECT $ASSET_CUSTOMER_CODE:CUSTOMER_NAME$, $ASSET_ORDER_APPDIRECTOPCO$, $ASSET_LEASE_ENDDATE$ FROM entity WHERE entity.template.code = 'ASSET' AND $ASSET_TENANT_CODE$ in ('VFUK','VODAFONE_UK') AND $ASSET_ID$ ='VFUKP03895001001' AND entity.deleted =0 and entity.hidden =0

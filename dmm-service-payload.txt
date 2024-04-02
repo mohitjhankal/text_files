@@ -1,0 +1,235 @@
+<entityset>
+​ ​​ ​​ ​​ ​<entity​ ​id="16070072" ​ ​name="SR-009019​ ​LEAVERS_SERVICE">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<template​ ​id="76241" ​ ​name="Service​ ​request" ​ ​code="ServiceRequest"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<group​ ​code="ServiceRequests"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="4252394" ​ ​name="Request​ ​primary​ ​ID" ​ ​code="primary_id">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>SR-009019​ ​LEAVERS_SERVICE</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76251" ​ ​name="Status" ​ ​code="status">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value​ ​code="request_status_new">01​ ​-​ ​Not​ ​started</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76253" ​ ​name="Requested​ ​for" ​ ​code="RequestedFor">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="6297308" ​ ​name="Customer​ ​Admin"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="13004544" ​ ​name="Requested​ ​for​ ​External​ ​ID" ​ ​code="RequestedFor_ExternalID">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>TSTTTSTS</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="13005303" ​ ​name="Requested​ ​for​ ​email​ ​id" ​ ​code="RequestedFor_EmailID">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>elvis.david@newburydigital.io</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="13004418" ​ ​name="Requested​ ​for​ ​Organisation" ​ ​code="RequestedFor_Organisation">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="12602385" ​ ​name="SYSCUST001"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="13004671" ​ ​name="Requested​ ​for​ ​Organisation​ ​ExternalID" ​ ​code="RequestedFor_Org_ExternalID">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>Vodafone</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76259" ​ ​name="Delivery​ ​address" ​ ​code="DeliveryAddress">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>Delivery​ ​to​ ​user's​ ​default​ ​address</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76263" ​ ​name="Service​ ​offering" ​ ​code="ServiceOffering">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>Leaver​ ​Request</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="4767499" ​ ​name="Type" ​ ​code="request_type">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value​ ​code="request_type_service_delivery_action">Service​ ​Delivery​ ​Action</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="1483940" ​ ​name="Self-Service​ ​Item" ​ ​code="ServiceItem">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="14153699" ​ ​name="LEAVERS_SERVICE"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76291" ​ ​name="Additional​ ​information" ​ ​code="AdditionalInformation">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>Pick-Up​ ​Date:2024-03-29
+Full​ ​Name:Test​ ​Customer
+Address​ ​Line​ ​1:On​ ​the​ ​Beach,​ ​Sandy​ ​House
+Address​ ​Line​ ​2:2
+City:London
+State:London
+Postal​ ​Code:WC2R​ ​1HA
+Country:GB
+Email​ ​Address:test@test.com
+Phone​ ​Number:07385814444</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="6587501" ​ ​name="Link" ​ ​code="Link">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>https://dmm.ndxdaas.com/itsm/Frameset.do?a=workspace/datacard/view/16070072</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76303" ​ ​name="Related​ ​assets" ​ ​code="related_assets">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="15435547" ​ ​name="VFUKP03895001001"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="12613365" ​ ​name="User​ ​Email​ ​Address" ​ ​code="related_assets_user_email">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>fishborne+4@gmail.com</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="1431117" ​ ​name="Impact" ​ ​code="impact">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value​ ​code="request_impact_medium">2.​ ​Medium</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="1431086" ​ ​name="Urgency" ​ ​code="urgency">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value​ ​code="request_urgency_medium">2.​ ​Medium</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="5029282" ​ ​name="Priority" ​ ​code="priority">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value​ ​code="request_priority_medium">3.​ ​Medium</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76312" ​ ​name="SLA​ ​used" ​ ​code="sla_used">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="4995605" ​ ​name="Default​ ​SLA"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76314" ​ ​name="Target​ ​response" ​ ​code="target_response_time">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>28-03-2024​ ​11:27:47</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76316" ​ ​name="Target​ ​resolution" ​ ​code="deadline">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>02-04-2024​ ​10:18:47</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="76322" ​ ​name="Status​ ​history" ​ ​code="status_history">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="16070067" ​ ​name="28-03-2024​ ​11:18:47"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="16070137" ​ ​name="28-03-2024​ ​11:18:50"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14627140" ​ ​name="Repair​ ​Pick-Up​ ​Email​ ​Sender" ​ ​code="REP_PICKUP_EMAIL_SENDER">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>Default</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="13617870" ​ ​name="Is​ ​Swap" ​ ​code="REP_IS_SWAP">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="13267692" ​ ​name="Last​ ​Bulk​ ​Batch​ ​processed​ ​by​ ​Integration" ​ ​code="BULK_ORDER_LAST_BATCH_PROCESSED">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="74447" ​ ​name="NDX​ ​ID" ​ ​code="efecte_id">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>SR-009019</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="74449" ​ ​name="Created" ​ ​code="created">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>28-03-2024​ ​11:18:47</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="74451" ​ ​name="Updated" ​ ​code="updated">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>28-03-2024​ ​11:30:26</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="4214514" ​ ​name="Creator" ​ ​code="creator">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="12599983" ​ ​name="RESTAPI_user"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="4214538" ​ ​name="Last​ ​update​ ​by" ​ ​code="last_update_by">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="6235703" ​ ​name="Customer​ ​Admin"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="6322852" ​ ​name="Product​ ​Code" ​ ​code="RELATED_ASSET_PRODUCT">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<reference​ ​id="12602017" ​ ​name="7428532B2401"/>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="6322590" ​ ​name="Repair​ ​Centre​ ​Payload" ​ ​code="REPAIRCENTRE_PAYLOAD">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>{
+​ ​​ ​​ ​​ ​"repair_order":
+{
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"repaircenter_code":​ ​"TMTFIRST",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"reference_number":​ ​"SR-009019",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"firstname":​ ​"Customer",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"lastname":​ ​"Admin",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"email":​ ​"elvis.david@newburydigital.io",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"phone":​ ​"",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"address_line1":​ ​"On​ ​the​ ​Beach,​ ​Sandy​ ​House",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"address_line2":​ ​"On​ ​the​ ​Beach,​ ​Sandy​ ​House",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"city":​ ​"London",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"state":​ ​"",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"postal_code":​ ​"WC2R​ ​1HA",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"country":​ ​"GB",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"complaint":​ ​"Pick-Up​ ​Date:2024-03-29
+Full​ ​Name:Test​ ​Customer
+Address​ ​Line​ ​1:On​ ​the​ ​Beach,​ ​Sandy​ ​House
+Address​ ​Line​ ​2:2
+City:London
+State:London
+Postal​ ​Code:WC2R​ ​1HA
+Country:GB
+Email​ ​Address:test@test.com
+Phone​ ​Number:07385814444",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"notes":​ ​"",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"courier":​ ​"Other",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"tracking_number":​ ​"TMT001",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"imei":​ ​"",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"serial_number":​ ​"TESTSERIALELVIS001",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"equipment_type":​ ​"",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"brand":​ ​"LENOVO",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"model":​ ​"Lenovo​ ​ThinkBook​ ​14​ ​G4​ ​IAP​ ​(BOM)(24​ ​Months)",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"color":​ ​"",
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​"carrier":​ ​"",
+}
+}</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14048563" ​ ​name="Pick-Up​ ​Email​ ​Sender" ​ ​code="ET_PICKUP_EMAIL_SENDER">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>Default</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152243" ​ ​name="Leavers​ ​Pick-Up​ ​Date" ​ ​code="LEV_PICKUP_DATE">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>29-03-2024</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152285" ​ ​name="Leavers​ ​Pick-Up​ ​Name" ​ ​code="LEV_PICKUP_FULLNAME">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>Test​ ​Customer</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152326" ​ ​name="Leavers​ ​Pick-Up​ ​Address​ ​Line​ ​1" ​ ​code="LEV_PICKUP_ADDRESS1">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>On​ ​the​ ​Beach,​ ​Sandy​ ​House</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152367" ​ ​name="Leavers​ ​Pick-Up​ ​Address​ ​Line​ ​2" ​ ​code="LEV_PICKUP_ADDRESS2">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>2</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152449" ​ ​name="Leavers​ ​Pick-Up​ ​City" ​ ​code="LEV_PICKUP_CITY">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>London</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152490" ​ ​name="Leavers​ ​Pick-Up​ ​State" ​ ​code="LEV_PICKUP_STATE">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>London</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152531" ​ ​name="Leavers​ ​Pick-Up​ ​Postal​ ​Code" ​ ​code="LEV_PICKUP_CODE">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>WC2R​ ​1HA</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152572" ​ ​name="Leavers​ ​Pick-Up​ ​Country" ​ ​code="LEV_PICKUP_COUNTRY">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>GB</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152613" ​ ​name="Leavers​ ​Pick-Up​ ​Email​ ​Address" ​ ​code="LEV_PICKUP_EMAIL_ADDRESS">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>test@test.com</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152692" ​ ​name="Leavers​ ​Pick-Up​ ​Phone​ ​Number" ​ ​code="LEV_PICKUP_PHONE_NO">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>07385814444</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152812" ​ ​name="Leavers​ ​Pick-Up​ ​Email​ ​Sender" ​ ​code="LEV_PICKUP_EMAIL_SEND">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>Default</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14152898" ​ ​name="Leavers​ ​Process​ ​Flag" ​ ​code="LEV_PROCESS_FLAG">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>NONE</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14153514" ​ ​name="Leavers​ ​Standard​ ​Charge​ ​Sent" ​ ​code="LEV_STD_CHG_SENT">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14153474" ​ ​name="Leavers​ ​Refurbishment​ ​Charge​ ​Sent" ​ ​code="LEV_REFUB_CHG_SENT">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14311741" ​ ​name="Joiners​ ​Delivery​ ​Is​ ​Despatched" ​ ​code="JOIN_DELIVERY_IS_SHIP">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14080985" ​ ​name="ET​ ​with​ ​device​ ​payload​ ​sent​ ​to​ ​application" ​ ​code="ET_WITH_DEVICE_SENT_API">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="13624676" ​ ​name="Update​ ​Asset​ ​User​ ​Details​ ​Asset​ ​Status​ ​and​ ​SR​ ​Status" ​ ​code="UPDATE_ASSET_SR_STATUS_AND_USER">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14185567" ​ ​name="Update​ ​swap​ ​status​ ​in​ ​Asset" ​ ​code="UPDATE_ASSET_SWAP_STATUS">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14201662" ​ ​name="Update​ ​leavers​ ​joiners​ ​status​ ​in​ ​Asset" ​ ​code="UPDATE_ASSET_LEAVERS_JOINERS_STATUS">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>Leavers​ ​Initiated</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14316026" ​ ​name="Update​ ​Allocation​ ​Details​ ​for​ ​Leavers​ ​and​ ​Joiners" ​ ​code="UPDATE_ASSET_LEAVERS_JOINERS_ALLOCATION">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="12614231" ​ ​name="Send​ ​Despatch​ ​Email" ​ ​code="Send_Despatch_Email">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>True</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="13004237" ​ ​name="Bulk​ ​Upload​ ​Processed" ​ ​code="BULK_UPLOAD_PROCESSED">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="13376385" ​ ​name="Bulk​ ​Order​ ​sent​ ​to​ ​API​ ​on​ ​create" ​ ​code="BULK_CREATE_SENT_API">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="14168819" ​ ​name="Leavers​ ​payload​ ​sent​ ​to​ ​application" ​ ​code="LEAVERS_SERVICE_SENT_API">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="15745639" ​ ​name="Bulk​ ​Allocation​ ​sent​ ​to​ ​API​ ​on​ ​create" ​ ​code="BULK_ALLOCATION_CREATE_SENT_API">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>False</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="15604507" ​ ​name="Service​ ​Request​ ​Opco" ​ ​code="SERVICE_REQUEST_OPCO">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>UATVFUK</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="15844200" ​ ​name="Bulk​ ​Allocation​ ​Create​ ​-​ ​Email" ​ ​code="BULK_ALLOCATION_CREATE_EMAIL">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>DEFAULT</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<attribute​ ​id="15594663" ​ ​name="Email​ ​Footer" ​ ​code="EMAIL_FOOTER_SR">
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​<value>&lt;table​ ​bgcolor="#eeeeee"​ ​border="0"​ ​cellpadding="0"​ ​cellspacing="0"​ ​width="100%"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%​ ​!important;​ ​table-layout:​ ​fixed;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table​ ​bgcolor="#eeeeee"​ ​border="0"​ ​cellpadding="0"​ ​cellspacing="0"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%​ ​!important;​ ​table-layout:​ ​fixed;"​ ​width="100%"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​align="center"​ ​valign="top"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table​ ​bgcolor="#eeeeee"​ ​border="0"​ ​cellpadding="0"​ ​cellspacing="0"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%​ ​!important;​ ​table-layout:​ ​fixed;"​ ​width="100%"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​align="center"​ ​valign="top"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;"&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table​ ​bgcolor="#eeeeee"​ ​border="0"​ ​cellpadding="0"​ ​cellspacing="0"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%​ ​!important;​ ​table-layout:​ ​fixed;"​ ​width="100%"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​align="center"​ ​valign="top"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;"&gt;&lt;table​ ​class="full_width_mobile"​ ​width="600"​ ​border="0"​ ​cellpadding="0"​ ​cellspacing="0"​ ​bgcolor="#4A4D4E"​ ​style="border-collapse:​ ​collapse;​ ​min-width:​ ​600px;​ ​width:​ ​600px;​ ​margin:​ ​0​ ​auto;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="content​ ​text-0​ ​p-top"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​padding:​ ​0px​ ​24px​ ​24px​ ​24px;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​padding-top:​ ​24px;"&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​class="w-full"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-14​ ​bold​ ​c-white​ ​px-48-m​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​white;​ ​font-size:​ ​14px;​ ​line-height:​ ​16px;​ ​font-weight:​ ​bold;​ ​text-align:​ ​center;"​ ​align="center"&gt;Get​ ​the​ ​most​ ​out​ ​of​ ​Vodafone​ ​by​ ​following​ ​us&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​class="w-full"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-0​ ​pt-0-m​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​text-align:​ ​center;​ ​padding:​ ​24px​ ​0px​ ​24px​ ​0px;"​ ​align="center"&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​class="w-full-m"​ ​style="border-collapse:​ ​collapse;​ ​margin:​ ​0px​ ​auto​ ​0px​ ​auto;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;th​ ​class="text-0​ ​stack​ ​text-center-m"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​text-align:​ ​left;​ ​font-weight:​ ​400;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;"​ ​align="left"&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​style="border-collapse:​ ​collapse;​ ​margin:​ ​0px​ ​auto​ ​0px​ ​auto;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-0​ ​pt-12-m​ ​px-24-m​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​text-align:​ ​center;"​ ​align="center"&gt;&lt;a​ ​href="https://www.youtube.com/c/VodafoneBusinessUK"&gt;​ ​&lt;img​ ​src="https://www.vodafone.co.uk/cs/groups/configfiles/documents/images/vfcon111471.png"​ ​width="50"​ ​alt="Youtube​ ​icon"&gt;​ ​&lt;/a&gt;&lt;/td&gt;&lt;td​ ​class="text-0​ ​pt-12-m​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​text-align:​ ​center;​ ​padding:​ ​0px​ ​24px​ ​0px​ ​24px;"​ ​align="center"&gt;&lt;a​ ​href="https://www.facebook.com/VodafoneBusinessUK"&gt;​ ​&lt;img​ ​src="https://www.vodafone.co.uk/cs/groups/configfiles/documents/images/vfcon111467.png"​ ​width="50"​ ​alt="Facebook​ ​icon"&gt;​ ​&lt;/a&gt;&lt;/td&gt;&lt;td​ ​class="text-0​ ​pt-12-m​ ​px-24-m​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​text-align:​ ​center;"​ ​align="center"&gt;&lt;a​ ​href="https://www.linkedin.com/company/vodafone-business"&gt;​ ​&lt;img​ ​src="https://www.vodafone.co.uk/cs/groups/configfiles/documents/images/vfcon111469.png"​ ​width="50"​ ​alt="Linkedin​ ​icon"&gt;​ ​&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/th&gt;&lt;th​ ​class="text-0​ ​stack​ ​text-center-m"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​text-align:​ ​left;​ ​font-weight:​ ​400;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;"​ ​align="left"&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​style="border-collapse:​ ​collapse;​ ​margin:​ ​0px​ ​auto​ ​0px​ ​auto;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-0​ ​pt-12-m​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​text-align:​ ​center;​ ​padding:​ ​0px​ ​24px​ ​0px​ ​24px;"​ ​align="center"&gt;&lt;a​ ​href="https://twitter.com/vodafoneukbiz"&gt;​ ​&lt;img​ ​src="https://www.vodafone.co.uk/cs/groups/configfiles/documents/images/vfcon111470.png"​ ​width="50"​ ​alt="Twitter​ ​icon"&gt;​ ​&lt;/a&gt;&lt;/td&gt;&lt;td​ ​class="text-0​ ​pt-12-m​ ​px-24-m​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​text-align:​ ​center;"​ ​align="center"&gt;&lt;a​ ​href="https://www.instagram.com/vodafonebusinessuk/?hl=en"&gt;​ ​&lt;img​ ​src="https://www.vodafone.co.uk/cs/groups/configfiles/documents/images/vfcon111468.png"​ ​width="50"​ ​alt="Instagram​ ​icon"&gt;​ ​&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​class="w-full"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-0​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​text-align:​ ​center;​ ​padding:​ ​0px​ ​0px​ ​24px​ ​0px;"​ ​align="center"&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​style="border-collapse:​ ​collapse;​ ​margin:​ ​0px​ ​auto​ ​0px​ ​auto;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-0"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;"&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​class="w-full"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-12​ ​c-white​ ​text-center​ ​px-8-m"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​white;​ ​font-size:​ ​12px;​ ​line-height:​ ​15px;​ ​text-align:​ ​center;​ ​padding:​ ​3px​ ​12px​ ​3px​ ​12px;"​ ​align="center"&gt;&lt;a​ ​href="http://www.vodafone.co.uk/about-this-site/our-privacy-policy/index.htm"​ ​class="c-white​ ​undecorated"​ ​style="color:​ ​white;​ ​text-decoration:​ ​none;"&gt;​ ​&lt;span​ ​class="c-white​ ​undecorated"​ ​style="color:​ ​white;"&gt;Privacy​ ​Policy&lt;/span&gt;​ ​&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;td​ ​class="text-0"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​border-left:​ ​1px​ ​solid​ ​white;​ ​border-right:​ ​1px​ ​solid​ ​white;"&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​class="w-full"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-12​ ​c-white​ ​text-center​ ​px-8-m"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​white;​ ​font-size:​ ​12px;​ ​line-height:​ ​15px;​ ​text-align:​ ​center;​ ​padding:​ ​3px​ ​12px​ ​3px​ ​12px;"​ ​align="center"&gt;&lt;a​ ​href="https://www.vodafone.co.uk/cloudservices/"​ ​class="c-white​ ​undecorated"​ ​style="color:​ ​white;​ ​text-decoration:​ ​none;"&gt;​ ​&lt;span​ ​class="c-white​ ​undecorated"​ ​style="color:​ ​white;"&gt;Terms​ ​&amp;amp;​ ​Conditions&lt;/span&gt;​ ​&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;td​ ​class="text-0"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;"&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​class="w-full"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-12​ ​c-white​ ​text-center​ ​px-8-m"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​white;​ ​font-size:​ ​12px;​ ​line-height:​ ​15px;​ ​text-align:​ ​center;​ ​padding:​ ​3px​ ​12px​ ​3px​ ​12px;"​ ​align="center"&gt;&lt;a​ ​href="http://www.vodafone.co.uk/contact-us/index.htm"​ ​class="c-white​ ​undecorated"​ ​style="color:​ ​white;​ ​text-decoration:​ ​none;"&gt;​ ​&lt;span​ ​class="c-white​ ​undecorated"​ ​style="color:​ ​white;"&gt;Contact​ ​Us&lt;/span&gt;​ ​&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​class="w-full"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-0​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​#4a4d4e;​ ​font-size:​ ​0px;​ ​line-height:​ ​0px;​ ​text-align:​ ​center;"​ ​align="center"&gt;&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​width="90"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​90%;​ ​margin:​ ​0px​ ​auto​ ​0px​ ​auto;"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td​ ​class="text-10​ ​c-white​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​white;​ ​font-size:​ ​10px;​ ​line-height:​ ​13px;​ ​text-align:​ ​center;​ ​padding:​ ​24px​ ​0px​ ​0px​ ​0px;​ ​border-top:​ ​1px​ ​solid​ ​white;"​ ​align="center"&gt;This​ ​email​ ​is​ ​from​ ​Vodafone​ ​UK​ ​Ltd.​ ​We​ ​process​ ​your​ ​personal​ ​data​ ​in​ ​accordance​ ​with​ ​our​ ​privacy​ ​policy,​ ​for​ ​more​ ​information​ ​please​ ​see​ ​&lt;a​ ​href="http://www.vodafone.co.uk/privacy"​ ​class="c-white​ ​underlined"​ ​style="color:​ ​white;​ ​text-decoration:​ ​underline;"&gt;​ ​&lt;span​ ​class="c-white​ ​underlined"​ ​style="color:​ ​white;​ ​text-decoration:​ ​underline;"&gt;www.vodafone.co.uk/privacy&lt;/span&gt;​ ​&lt;/a&gt;.&lt;table​ ​cellpadding="0"​ ​cellspacing="0"​ ​border="0"​ ​class="w-full"​ ​style="border-collapse:​ ​collapse;​ ​width:​ ​100%;​ ​height:​ ​38px;"​ ​height="41"&gt;&lt;tbody&gt;&lt;tr​ ​style="height:​ ​15px;"&gt;&lt;td​ ​class="text-12​ ​bold​ ​c-white​ ​text-center"​ ​style="font-family:​ ​Arial,​ ​Helvetica,​ ​sans-serif;​ ​margin:​ ​0px;​ ​color:​ ​white;​ ​font-size:​ ​12px;​ ​line-height:​ ​15px;​ ​font-weight:​ ​bold;​ ​text-align:​ ​center;​ ​padding:​ ​24px​ ​0px​ ​8px;​ ​height:​ ​15px;"​ ​align="center"&gt;Company​ ​Details&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;p&gt;©​ ​2024​ ​Vodafone​ ​Limited​ ​is​ ​authorised​ ​and​ ​regulated​ ​by​ ​the​ ​Financial​ ​Conduct​ ​Authority​ ​for​ ​consumer​ ​credit​ ​lending​ ​and​ ​insurance​ ​distribution​ ​activity​ ​(Financial​ ​Services​ ​Register​ ​No.​ ​712210)​ ​Registered​ ​in​ ​England​ ​and​ ​Wales.​ ​Company​ ​No​ ​01471587.​ ​Registered​ ​Office:​ ​Vodafone​ ​House,​ ​The​ ​Connection,​ ​Newbury,​ ​Berkshire,​ ​RG14​ ​2FN.&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</value>
+​ ​​ ​​ ​​ ​​ ​​ ​​ ​​ ​</attribute>
+​ ​​ ​​ ​​ ​</entity>
+</entityset>

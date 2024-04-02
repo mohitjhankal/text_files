@@ -1,0 +1,50 @@
+SSH stands for Secure Shell, and it's a protocol used for securely connecting to a remote server or computer over a network. SSH provides encrypted communication between the client and the server, making it a secure way to access and manage remote systems.
+
+When you SSH into a remote server, you establish a secure connection and gain access to a command-line interface on that server. This allows you to execute commands, transfer files, and perform various administrative tasks on the remote machine.
+
+kubernetes is container orchestration or container management tool container orchestration engine written in GoLang called as k8s.
+container orchestration tool or engine automates deploying, scalling and managing containerized application on a group of servers -> (deploying, scheduling, scaling, laod balancing)
+
+feature 1. automatic bin packing
+	2. service discovery & load balancing
+	3. Storage orchestration
+	4. Helf healing
+	5. Automated rolouts and rollbacks
+	6. secret & configuration management 
+	7. batch execution
+	8. horizontal scaling
+
+kubernetes pod - smallest deployable units in kubernetes, containers are wraped inside pod. Every pod has small volume(storage) inside it. we can have multiple pods
+kubernetes gives pods their own IP addresses and a Single DNS name for a set of pods, and can load balance across them
+pods are housed inside nodes
+containers running inside a pod may need to store data
+pods can have a storage volumes
+In kubernetes sensitive data like passwords, keys, tokens are handled using Secrets, It is an Object, Created outside pods and containera
+Configurations are handled using Config Maps, it is Object also.
+Secrets and configurations are stored in ETCD, is a key value datastore max-limit for secret is 1MB
+
+containers(docker container for ex) <- pods(contain multiple number of conatinera, Have their own IP addresses, And multiple pods have single DNS) <- nodes(contain multiple pods, these are of two types master node and worker node) <- cluster
+
+Note --> cluster can have not more than 5000 nodes, 150000 pods and, 300000 containers, not more than 100 pods per node
+
+1. cluster -> It is a set of machine called nodes, there should be atleast one master node and one worker node
+2. Master Node -> Master node manages both worker node and pods in cluster. have 4 components 1) API server 2) Scheduller 3) Control Manager 4) ETCD
+
+3. Worker node -> Has 3 Components 1) kubelet 2) kube-proxy 3) container runtime
+// Initialize cluster master node:
+kubeadm init --apiserver-advertise-address $(hostname -i) --pod-network-cidr 10.5.0.0/16
+
+// Initialize cluster networking:
+kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
+
+// To join master node with worker node // write it at worker node 
+kubeadm join 192.168.0.13:6443 --token thktiz.q0tg6hk2u2nzoxvk \
+        --discovery-token-ca-cert-hash sha256:e9652f28e767cef926b861b52cec16a8ed508948be552c9d476b07a0745ac0d4 
+	-> above will vary check first 
+
+kubectl get nodes 
+kubectl get pods
+
+// To create pods 
+kubectl create deployment nginx --image=nginx
+kubectl scale deployment nginx --replicas=3

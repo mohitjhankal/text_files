@@ -1,0 +1,485 @@
+RestTemplate simplifies the process of making HTTP request to RESTful web services.
+already included inside starter-web dependency
+
+RestTemplate restTemplate = new RestTemplate();
+String url = "https://api.example.com/data";
+
+// make a GET request and retrieve the response as a ResponseEntity
+ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+// Extract data from the response
+String responseBody = responseEntity.getBody();
+int statusCode = responseEntity.getStatusCode();
+
+// handling request parameters
+RestTemplate restTamplate = new RestTemplate();
+
+String baseUrl = "https://api.example.com/data";
+
+String param1 = "value1";
+String param2 = "value2";
+
+String url = UriComponentBuilder.fromHttpUrl(baseUrl)
+		.queryParma("param1",param1)
+		.queryParam("param2",param2)
+		.toUriString();
+
+
+ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+
+
+///////////// HttpHeaders ////////
+HttpHeaders represents the HTTP headers of an HTTP request or response
+it provides methods to manipulate and access various Http heades values
+
+// creating http headers 
+HttpHeaders headers = new HttpHeaders();
+
+// add single header
+headers.add("Content-Type","application/json");
+
+// add multiple headers
+headers.set("Authorization",Bearer yourAccessToken");
+headers.add("Accept","application/json");
+
+// how to retrieve headers from controller
+
+@RestController()
+public class MyController{
+
+	@PostController
+	public ResponseEntity<String> handleRequest(
+		@RequestHeader HttpHeaders headers,
+		@RequestBody String requestBody
+	){
+	   List<String> contentType = headers.get("Content-Type");
+
+	   return ResponseEntity.ok("Request received successfully");
+}
+}
+
+
+// Adding headers to response
+@RestController
+public class MyController {
+
+	@GetMapping("/example")
+	public ResponseEntity<String> handleResponse(){
+	  HttpHeaders headers = new HttpHeaders();
+	  
+	  headers.add("Cache-Control","no-store");
+	  headers.set("Pragma","no-cache");
+
+	  return ResponseEntity.ok().headers(headers).body("Response content")
+
+}
+
+///// common HttpHeaders usage /////
+// create HttpHeaders instance 
+HttpHeaders headers = new HttpHeaders();
+
+// Set content type to JSON
+headers.setContentType(MediaType.APPLICATION_JSON);
+	
+// Set accept type
+headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+////////////// use HttpHeaders with RestTemplate ///////
+
+// create resttemplate instance 
+RestTemplate restTemplate = new RestTemplate();
+
+// create HttpHeaders instance
+HttpHeaders headers = new HttpHeaders();
+headers.setContentType(MediaType.APPLICATION_JSON);
+
+// Create HttpEntity with headers
+HttpEntity<String> requestEntity = new HttpEntity<>("requestBody",headers);
+
+// make a POST request
+restTemplate.postForObject("https://example.com/api/resource", requestEntity, String.class);
+
+// this MediaType is used because of MultiValueMap<String, String> map = new LinkedMultiValue<>();
+headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+MultiValueMap<String, String> map = new LinkedMultiValue<>();
+map.add(LOGIN,dmmApiUsername);
+map.add(PASSWORD, dmmApiPassword);
+HttpEntity<MultiValue<String, String>> request = new HttpEntity<>(map, headers);
+
+/////////// UriComponentBuilder //////////
+// build a simple URI
+UriComponentBuilder builder = UriComponentBuilder.fromUriString("https://exmple.com");
+String uri = builder.build().toUriString();
+sout();
+
+// build a uri with path
+UriComponentBuilder pathBuilder = UriComponentBuilder.fromUriString("https://example.com");
+pathBuilder.path("/api/resource")
+String pathUri = pathBuilder.build().toUriString();
+
+
+//// Scheduled
+@EnableScheduling in main application
+
+
+@Secheduled(fixedRate = 5000) // execute every 5 seconds
+public void scheduledTask(){
+	SimpleDateFormat sdf = new SimpleDateFormt("yyyy-MM-dd HH:mm:ss");
+	System.out.println("Task executed at : sdf.format(new Date()));
+}
+
+// example of scheduling a task with a delay
+public void scheduleTaskwithDelay(){
+	taskScheduler.scheduleWithFixedDelay(
+		() -> sout("Delayed task executed at : "+new Date()),1000
+)
+}
+
+
+private final Logger log = LoggerFactory.getLogger(ProducerConfiguration.class);
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+
+
+DMM (Data Migration Manager)
+1. dmmsandbox
+2. dmmuat
+3. dmmuat -> error -> datacard
+key -> application_direct OPCO
+sbvfrg -> sandbox wale pe
+
+salesorder in kafka topic 
+command execute from bin folder
+
+
+
+//// task /////////////
+
+we have created a microservice which store and perform CRUD operation on ftpClientData and sftpClientData
+now we have to create a microservice which takes this ftp and sftp data from  and store it in internal SFTP folder 
+
+
+Find what you need faster … Home is your new landing page and surfaces your most relevant files and folders
+ftpDataTransfer.txt
+For Apache Commons Net (FTP):
+<!-- Maven -->
+<dependency>
+    <groupId>commons-net</groupId>
+    <artifactId>commons-net</artifactId>
+    <version>3.8.0</version> <!-- Use the latest version available -->
+</dependency>
+
+
+For JSch (SFTP)
+<!-- Maven -->
+<dependency>
+    <groupId>com.jcraft</groupId>
+    <artifactId>jsch</artifactId>
+    <version>0.1.55</version> <!-- Use the latest version available -->
+</dependency>
+
+
+create a microservice with config client which is named as limit-service
+# this contain the port of config server
+spring.config.import=optional:configserver:http://localhost:8888
+
+Splunk's software can be used to examine, monitor, and search for machine-generated big data through a browser-like interface.
+
+Serialization and deserialization in Java refer to the process of converting an object into a byte stream and reconstructing the object from that byte stream, respectively. These processes are commonly used when you need to save the state of an object, transmit it over a network, or store it in a persistent storage system. Java provides built-in mechanisms for serialization and deserialization through the Serializable interface and the ObjectInputStream/ObjectOutputStream classes.
+
+ResponseEntity<CompanyUserUuidDetails> response = restTemplate.exchange(
+    companyUserUUIDUrl,        // URL of the endpoint you are making the request to
+    HttpMethod.POST,           // HTTP method (POST in this case)
+    request,                   // HttpEntity containing request body and headers
+    CompanyUserUuidDetails.class // The expected response type
+);
+
+OMM (Object Management Model): In software engineering and distributed systems, an Object Management Model can define how objects are created, manipulated, and managed. CORBA (Common Object Request Broker Architecture) is an example of a system that uses an Object Management Model.
+
+DMM (Data Migration Manager): In the context of databases and information technology, DMM might refer to a Data Migration Manager, a tool or system designed to facilitate the migration of data from one system to another.
+
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy  HH:mm:ss");
+String createdOn = customer.getCreatedOn().format(formatter);
+
+
+
+// Apache kafka is like a communication system that helps different parts of a computer system exchange data by publishing and subscribing to topics 
+
+Sender -> (publish) -> Apache Kafka -> (subscribe) -> Receiver
+to run apache first we move kafka to C drive 
+ - than open cmd in kafka folder and type this cmd - bin\windows\zookeeper-server-start.bat config\zookeeper.properties     run the zookeeper
+ - now to run kafka we use another terminal and type cmd - bin\windows\kafka-server-start.bat config\server.properties	    run kafka application
+ - 1. Create new topic with kafka-topice  we use cmd - bin\windows\kafka-topics.bat --create --topic (topic-name) --bootstrap-server localhost:9092
+ - 2. Produce example message with kafka-console-producer  we use cmd - bin\windows\kafka-console-producer.bat --topic (topic-name) --bootstrap-server localhost:9092
+ - 3. Consume the message with kafka-console consumer we use cmd - bin\windows\kafka-console-consumer.bat --topic user-topic --from-beginning --bootstrap-server localhost:9092 
+
+
+Delivery App -> (produce message) -> apache kafka -> (consumer message) -> End user app
+
+NB-Revola-Customer -> CustomerListeners -> CostCentreMessageFormatter.formatMessage
+NB-VfLass-Listener -> kafka-> listener -> CreateAppDirectCustomersUsers -> "receiveCompanyUsersAppDirectTopic" 
+first boomi listen "sendCompanyNameAppDirectTopic" than we receive data from "receiveCompanyUsersAppDirectTopic"
+
+sendCompanyNameAppDirectTopic in this boomi team finds customer, assosiated user/employee find appdirect and comes at receive
+ 
+first in NB-Revola-Customer in CustomerListeners we have to add "Opco" in CustomerMessageFormatter.formatMessage (this is not correct) so no change in NB-Revola-Customer
+the payload in dmm-service->composeCustomerDataAndSendToKafkaTopic came from "DMM" and it contains "CUSTOMER_OPCO" already. we just need to add it in "sendCompanyNameAppDirectTopic" topic. so we added customerOpco in "DmmCustomer".
+
+Than we get data from boomi in this topic present in VfLaas Listener "receiveCompanyUsersAppDirectTopic". -> AppDirect.
+We add customerOpco in AppDirect. 
+now in this listener we hit a method "getCustomerCodeBasedOnCustomerExternalId" which takes appDirectCustomers  in this we have made two changes as following
+on clicking it we have another method "getCustomerCodeUri" which takes two arguments customerName, customerExternalId. Now we have to add opco and then we get uri.
+we have another method in it "createHeaderWithBearerToken" we need to change code in this also
+Than we go into create user and made only one change in composeUser by adding opco in it. no change in createEmployee
+
+private void startAllScheduledFutures(String uri, String username, String password) {
+        startScheduledFutureDelivered(uri, username, password); 
+        startScheduledFutureDespatched(uri, username, password);
+        startScheduledFutureLeaseTerminated(uri, username, password);
+        startScheduledFutureLeaseTerminatedEarly(uri, username, password);
+    }
+
+    @Override
+    public synchronized void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
+        if (this.scheduledTaskRegistrar == null) {
+            this.scheduledTaskRegistrar = scheduledTaskRegistrar;
+        }
+
+        this.scheduledTaskRegistrar.setScheduler(deliveredTaskScheduler);
+
+        startAllScheduledFutures(dmmUri, dmmApiUserName, dmmApiPassword);
+
+        // Iterate over dmms configurations
+        List<DmmConfigurations.Dmm> dmms = dmmConfigurations.getDmm();
+        for (DmmConfigurations.Dmm dmm : dmms) {            
+            // Calling methods with the extracted URI, Username & password            
+            if(!dmm.getUri().getExternal().equals(NON_PROD_ENV_PARAMETER) && !dmmUri.equals(dmm.getUri().getExternal())) {
+                startAllScheduledFutures(dmm.getUri().getExternal(), dmm.getApi().getUsername(), dmm.getApi().getPassword());
+            }
+        }
+    }
+
+/ Getting all dmms
+        List<DmmConfigurations.Dmm> dmms = dmmConfigurations.getDmm(); // getting all dmm s
+        for (DmmConfigurations.Dmm dmm : dmms){
+            if (Objects.equals(dmm.getName(), "") || dmm.getName() == null){
+                dmmUri = dmmBaseUri;
+            } else if (dmm.getName().equals(opco)){
+                dmmUri = dmm.getUri().getExternal();
+            }
+        }
+
+String dmmUri = "";
+        DmmConfigurations.Dmm dmm = dmmConfigurations.getDmm().stream().filter(dm -> dm.getName().equals(opco)).findFirst().orElse(null);
+        if (dmm != null){
+            dmmUri = dmm.getUri().getExternal();
+        } else {
+            dmmUri = dmmBaseUri;
+        }
+
+salesOrderLIstener in vflass
+
+////////////// cloning customer service
+aws configure sso
+git clone codecommit://CodeCommitDeveloperAccess@NB-Reveola-Customer  // by default it is comin from master branch
+git clone codecommit://CodeCommitDeveloperAccess@NB-Reveola-Customer -b uat  // now it's coming from uat
+
+git branch
+
+// come to folder of EN-166 first NB-VfLaas-Listener and than cmd
+git checkout -b EN-166-Tile-Creation   // switched to a new branch
+
+// AWS -> developer -> code commit -> Repositories -> NB-Revola-Customer -> Pull request
+
+////////////////////
+git clone codecommit://CodeCommitDeveloperAccess@nb-revola-dmm-service
+git branch // to check the branch-> in this case it is master
+git checkout -b EN-166-Tile-Creation
+
+
+krishnay vashudevay hardaye paramatmne
+prantah: kleshnashay govinday namo namh: 
+
+
+// process of dmm-bulk-upload file -> url
+first XML data send to "/process/{templateCode}/bulk-upload-file" as a payload,
+then a method convert XML data to a JSON object and get the data of entityset and entity.
+than we find out the attributes required to download the file -> {attributeCode,fileInternalLocation,fileName,fileNameWithExtension}
+than we get company and sales details -> { user, company,salesAgent, salesAgentCompany }
+than we get company and sales agent UUID -> in this process we get access token from boomi and hit url {boomi.company-user-uuid.api-url} to get data
+we set our data in CompanyUserUuidDetails format, SO HERE IN "CompnayUserUuidDetails" we can add "Link".
+after that we download file and send to bulkorderapi
+
+
+            JSONArray allAttributes = entityObj.getJSONArray("attribute");
+            String link = "";
+            for (int index = 0; index < allAttributes.length(); index++){
+                Object code = allAttributes.getJSONObject(index).get("code");
+                if (allAttributes.getJSONObject(index).equals(code)){
+                    link = allAttributes.getJSONObject(index).get("value").toString();
+                }
+            }
+
+
+private void updateDmmConfiguration(String opco) {
+    DmmConfigurations.Dmm dmm = findDmmByOpco(opco);
+    if (dmm != null) {
+        dmmUri = dmm.getUri().getExternal();
+        dmmApiUserName = dmm.getApi().getUsername();
+        dmmApiPassword = dmm.getApi().getPassword();
+    }
+}
+
+// From JacksonFilterPoc master-5
+JsonNode jsonNode = objectMapper.valueToTree(payload);  if payload is -> @RequestBody Object payload
+if (!ArrayUtils.contains(fieldsToInclude, fieldName))   // It requires another dependency apache.commons2
+
+    int startIndex = fieldName.indexOf("[");
+    int endIndex = fieldName.indexOf("]");
+    String arrayFieldName = fieldName.substring(0, startIndex);
+    String fieldList = fieldName.substring(startIndex + 1, endIndex);
+    String[] explicitFields = fieldList.split(",");
+
+
+HDFC milenia
+AXIS flipkart
+MYNTRA kotak
+
+
+// OMM -> Order managment model   is ERP (Enterprise resource planning)
+// DMM -> Device managment module
+
+once the order is created kafka send the order to OMM, which takes the order an create internal order for ndx and than sends it DMM
+DMM is our platform database as well as platform processing enigne, do some formulation, send emails,do some calcultaion
+In Dmm (CMDB, configuration managment database) all the details regarding an asset is here (( 140 - ASSETS ))
+ASSET ID unique
+
+how did it notify newbury digital that it has some issue
+So in DMM -> 190 Error Events
+
+once the order is created we have a listener in DMM, which invoke microservices layer api than that api send payload to boomi and than boomi send that payload to crentalitiy who is the configuration partner for vodafone
+
+inboundErrorOMMTopic -> for example DMM sees any topic it will write here, and if odoo sees any error it will write in outboundErrorOMMTopic
+
+two channel -> REVOLA and VFLasS
+master data in REVOLA,
+all regarding to order in VFLasS
+
+ETS -> Early termination request
+
+code changes -> properties -> application.yml, application-dev.yml
+		DevOps -> conf.d -> application.toml , templates -> application.tmpl, script -> execution.sh
+					
+		
+NON_RELATED_ENV_PARAMETER = "THISPARAMETERISNOTRELATEDTOTHISENV"
+
+179 nb-revola-dmm-service, NB-Bulk-Order
+
+
+line 209 !dataCardUpdated 
+	String msg = "Failed to update serviceRequest dataCard : " + companyUserUuidDetails.getDataCardId();
+	generateResponse(500, msg, " ", response);
+
+line 223
+externalCommentErrorMsg
+line 224 
+	externalCommentErrorMsg.append("File Error : Required sheet ").append(BULK_ORDER_LINES).append(" is not present in the uploaded file.");
+	String msg = "Excel file : " + excel.getOriginalFilename() + " for dataCard : " + companyUserUuidDetails.getDataCardId() + " doesn't have sheet with name as " + BULK_ORDER_LINES;
+
+line 249 : 
+	            String errorMsg = "Error while processing uploaded file : " + exception.getMessage()
+
+413 getBulkOrderLineError
+422 getBulkOrderLinesErrorMsg
+434 getBulkOrderlineErrorBasedOnServiceRequestIdUrl
+499 cellErrorDetails
+
+
+
+dmm-service
+
+throws error when required attributes is not there
+throw new JSONException("Error occurred while getting required attributes to download file");
+
+validation error
+throw new IOException("Unsupported file format. Only XLS and XLSX files are supported.");
+
+
+if we don't get success status from boomi for getCompanyAndSalesAgentUUID api then returns 
+getErrorMessage : TemplateCode :- (ServiceRequest), DataCardID :- (serviceRequestId), FileName :- (fileName), Api called internally :- (companyUserUUIDUrl), Error received from api :- (error response)
+
+
+Bulk-Order
+if orderItemResponse contains invalidExcelRowsDetails and validOrderItems then status will be 36 - Bulk Order Processed with Error
+Failed to update serviceRequest dataCard : (data card id)
+
+if orderItemResponse contains invalidExcelRowsDetails then status will be 37 - Bulk Order Failed
+Failed to update serviceRequest dataCard : (data card id)
+
+if bulk order sheet does not exist 
+update in SR data card
+File Error : Required sheet BulkOrderLines  is not present in the uploaded file.
+Excel file : (filename) for datacard : (data card id) doesn't have sheet with name as BulkOrderLines
+
+if number of records is greater then order line processed from the file and order line processed from the file is not zero
+Error msg : "Processed excel file : (filename) for dataCard : (data card id) with some incorrect data"
+
+if order line processed from the file is zero
+Error msg : "Excel file : (filename) for dataCard : (data card id) contains incorrect data in the file "
+
+
+for general exception for uploaded file 
+update in SR data card
+Error while processing uploaded file : (errorMessage)
+
+composeOrderItems
+Product_Code:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [Product_Code] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "Product_Code" column of the specified row is either empty or invalid.
+Lease_Duration:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [Lease_Duration] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "Lease_Duration" column of the specified row is either empty or invalid.
+QUANTITY:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [QUANTITY] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "QUANTITY" column of the specified row is either empty or invalid.
+CURRENCY:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [CURRENCY] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "CURRENCY" column of the specified row is either empty or invalid.
+RECIPIENT_EMAIL_ADDRESS_COL:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [RECIPIENT_EMAIL_ADDRESS_COL] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "RECIPIENT_EMAIL_ADDRESS_COL" column of the specified row is either empty or invalid.
+SHIPPING_ADDRESS_LINE_1:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_ADDRESS_LINE_1] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_ADDRESS_LINE_1" column of the specified row is either empty or invalid.
+SHIPPING_CITY:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_CITY] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_CITY" column of the specified row is either empty or invalid.
+SHIPPING_COUNTRY_CODE:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_COUNTRY_CODE] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_COUNTRY_CODE" column of the specified row is either empty or invalid.
+SHIPPING_NAME:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_NAME] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_NAME" column of the specified row is either empty or invalid.
+SHIPPING_POSTAL_CODE:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_POSTAL_CODE] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_POSTAL_CODE" column of the specified row is either empty or invalid.
+SHIPPING_SUB_DIVISION_CODE:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_SUB_DIVISION_CODE] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_SUB_DIVISION_CODE" column of the specified row is either empty or invalid.
+SHIPPING_SAME_AS_BILLING_ADDRESS:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_SAME_AS_BILLING_ADDRESS] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_SAME_AS_BILLING_ADDRESS" column of the specified row is either empty or invalid.
+
+

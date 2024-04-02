@@ -1,0 +1,16 @@
+To look into EC2 cluster 
+go to pem keys folder at Desktop and run cmd
+1. first hit command -> ssh -i "ss-bastion.pem" ec2-user@ec2-13-37-204-173.eu-west-3.compute.amazonaws.com
+2. after hitting above second command hit -> ssh -i Uat-integration-key.pem ec2-user@172.20.53.207
+3. now we need to login into aws -> https://newburydigital.awsapps.com/start/#/
+go to UAT -> EKS-Admins Access keys -> Option 1: Set AWS environment variables -> copy it and paste it into cmd 
+Now we have logged into it.
+
+UAT Environmenet : https://dmmuat.vodafone.myvbmd.com/itsm
+username : neosalpha.admin
+password : NewburyDigital@01
+
+kubernetes commands : 
+1. kubectl get po -A  // to get all pods
+2. kubectl logs microservice_name -n microservice  // to get logs of microservice
+3. kubectl logs microservice_name -n microservice | grep "something_to_find"

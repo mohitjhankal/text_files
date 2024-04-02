@@ -1,0 +1,63 @@
+docker commands
+
+1 - docker container run -d -p 5000:5000 demo/hello-world-python:0.0.1.RELEASE
+we can change the port number  5001:5000 demo
+first 5001 is of docker means our docker container will run at 5001 port number
+second 5000 is of our application port number means what we have put port number in our app
+
+The docker container run command is used to create and start a Docker container. Here's the breakdown of the provided command:
+-d: This flag stands for "detach." It runs the container in the background (in detached mode), allowing you to use the terminal for other commands.
+-p 5000:5000: This flag maps port 5000 from the host machine to port 5000 inside the container. The syntax is -p hostPort:containerPort. In this case, any traffic sent to port 5000 on the host machine will be forwarded to port 5000 in the running container.
+demo/hello-world-python:0.0.1.RELEASE: This is the Docker image to be used for creating the container. It specifies the image name (demo/hello-world-python) and the tag (0.0.1.RELEASE). Docker will pull this image from the Docker Hub repository if it is not already available locally.
+you can check if this image is present or not on docker hub
+docker files are instructions to create a docker image
+
+2 - docker build -t demo/hello-world-docker:v1 .  (there is a dot in the end of it which show location)\
+(demo/hello-world-docker:v1) this is the name of application
+creating an image from Dockerfile but first we need to move into application folder(remember).
+
+before
+FROM openjdk:18.0-slim
+COPY target/*.jar app.jar
+EXPOSE 8089 (application port)
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+
+Dockerfile - multistage - means with this file first jar file will be created and than image will build
+FROM maven:3.9.6-openjdk-17-slim AS build
+WORKDIR /home/app
+COPY . /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+FROM openjdk:17.0-slim
+VOLUME /temp
+EXPOSE 8080
+COPY --from=build /home/app/target/*.jar app.jar
+ENTRYPOINT ["sh","-c","java -jar /app.jar"]  
+
+to build image with maven plugin just go to terminal and type mvn spring-boot:build-image
+or go to maven -> plugin -> spring-boot -> spring-boot:build-image
+
+example - 
+in desktop -> example2 -> demo 
+go to demo directory where Dockerfile is present on cmd
+create image cmd : docker build -t demo-app .
+to run container cmd : docker run -d -p 8089:8089 demo-app (it is because our application is on 8089 port and our container will run on 8089 also)
+
+now if we to change the port number of container than use this command.
+cmd : docker run -d -p 8088:8089 demo-app (now our application will run on 8088 port)
+
+////////////////////////////////////////////////////
+FROM eclipse-temurin:17-jre-alpine
+
+so this dockerfile downloads the JDK binary file from the offcial Adoptium Github  release page, Which provide prebuild binaries of OpenJDK that are tested and verified to be compatible and safe for use.
+
+checksum verified, this helps prevent temepering or corruption during the download process
+
+this dockerfile starts with centOS 7 base image, which is linux based OS known for its high security.
+
+Best Practices: The Dockerfile follows best practices by using official CentOS base images, minimizing layers, and cleaning up unnecessary files after installation.
+
+Environment Setup: The Dockerfile sets up environment variables (JAVA_HOME and PATH) to ensure that the installed JDK is available and configured correctly.
+
+overall, based on the provided Dockerfile, using this image should be safe, especially considering that it uses a reputable source for the JDK.

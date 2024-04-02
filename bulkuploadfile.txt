@@ -1,0 +1,166 @@
+
+SERVICE_REQUEST_OPCO
+
+
+<entityset>
+<entity id="13610773" name="SR-001704 BULK_ORDERS">
+<template id="76241" name="Service request" code="ServiceRequest"/>
+<group code="ServiceRequests"/>
+<attribute id="12614231" name="Send Despatch Email" code="Send_Despatch_Email">
+<value>True</value>
+</attribute>
+<attribute id="13004237" name="Bulk Upload Processed" code="BULK_UPLOAD_PROCESSED">
+<value>Ready</value>
+</attribute>
+<attribute id="13376385" name="Bulk Order sent to API on create" code="BULK_CREATE_SENT_API">
+<value>True</value>
+</attribute>
+<attribute id="12993703" name="Send email for ET with device" code="EMAIL_ET_WITH_DEVICE">
+<value>Default</value>
+</attribute>
+<attribute id="13263442" name="Vodafone Representative Email ID" code="BULK_VF_REP_EMAILID">
+<value>benjamin.young@vodafone.com</value>
+</attribute>
+<attribute id="13263480" name="Vodafone Opportunity ID" code="BULK_VF_OPPORTUNITY_ID">
+<value>Test ID - 18-04-2023-1305PM</value>
+</attribute>
+<attribute id="13263518" name="Customer Reference - Bulk" code="BULK_VF_CUST_REFERENCE">
+<value>12345678903042023</value>
+</attribute>
+<attribute id="13263556" name="Vodafone Other Reference" code="BULK_VF_OTHER_REFERENCE">
+<value>98765432103042023</value>
+</attribute>
+<attribute id="13263594" name="Opportunity Create Company" code="BULK_VF_OPPORTUNITY_COMPANY">
+<value>Vodafone</value>
+</attribute>
+<attribute id="13263632" name="Opportunity Create Email ID" code="BULK_VF_OPPORTUNITY_USER">
+<value>ndxsalesautomateduser@getnada.com</value>
+</attribute>
+<attribute id="13267692" name="Last Bulk Batch processed by Integration" code="BULK_ORDER_LAST_BATCH_PROCESSED">
+<value>False</value>
+</attribute>
+<attribute id="6454712" name="Quote helper" code="REP_QUOTE_HELPER">
+<value>SET</value>
+</attribute>
+<attribute id="4252394" name="Request primary ID" code="primary_id">
+<value>SR-001704 BULK_ORDERS</value>
+</attribute>
+<attribute id="76251" name="Status" code="status">
+<value code="request_status_bulkorderprocessapproved">38 - Bulk Order Process Approved</value>
+</attribute>
+<attribute id="76253" name="Requested for" code="RequestedFor">
+<reference id="6235645" name="Partner Admin "/>
+</attribute>
+<attribute id="13005303" name="Requested for email id" code="RequestedFor_EmailID">
+<value>mark.howard@newburydigital.io</value>
+</attribute>
+<attribute id="13004418" name="Requested for Organisation" code="RequestedFor_Organisation">
+<reference id="13266320" name="SYSCUST014"/>
+</attribute>
+<attribute id="13004671" name="Requested for Organisation ExternalID" code="RequestedFor_Org_ExternalID">
+<value>Group - DaaS</value>
+</attribute>
+<attribute id="76257" name="Ordered by" code="OrderedBy">
+<reference id="6235645" name="Partner Admin "/>
+</attribute>
+<attribute id="76259" name="Delivery address" code="DeliveryAddress">
+<value>Delivery to user's default address</value>
+</attribute>
+<attribute id="76263" name="Service offering" code="ServiceOffering">
+<value>Bulk Upload</value>
+</attribute>
+<attribute id="4970821" name="Link to approvals" code="link_approval">
+<reference id="13610834" name="SR-001704 BULK_ORDERS" code="ApprovedIssue"/>
+</attribute>
+<attribute id="2844471" name="Actual approver" code="approving_manager">
+<reference id="13280575" name="Kumudha Rajaram"/>
+</attribute>
+<attribute id="4767499" name="Type" code="request_type">
+<value code="request_type_service_delivery_action">Service Delivery Action</value>
+</attribute>
+<attribute id="1483940" name="Self-Service Item" code="ServiceItem">
+<reference id="12992933" name="BULK_ORDERS"/>
+</attribute>
+<attribute id="6587501" name="Link" code="Link">
+<value>https://dmm.ndxdaas.com/itsm/Frameset.do?a=workspace/datacard/view/13610773</value>
+</attribute>
+<attribute id="6326239" name="Autoclose duplicate" code="autoclose_duplicate">
+<value>Empty</value>
+</attribute>
+<attribute id="76307" name="Self-ServiceItemName" code="ServiceItemName">
+<value>Place Bulk Order</value>
+</attribute>
+<attribute id="76278" name="Resolution" code="resolution">
+<value>None Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty. Related asset not present or autoclose_duplicate is empty.</value>
+</attribute>
+<attribute id="76284" name="File attachments" code="RequestAttachments">
+<externalreference name="Bulk Ordertest-9records-withShuffledandemptycolumnsinBulkOrderLines-20-04-2023.xlsx" location="20230420_WMsO.xlsx"/>
+</attribute>
+<attribute id="5008473" name="Quantity" code="quantity">
+<value>1</value>
+</attribute>
+<attribute id="1431117" name="Impact" code="impact">
+<value code="request_impact_medium">2. Medium</value>
+</attribute>
+<attribute id="1431086" name="Urgency" code="urgency">
+<value code="request_urgency_medium">2. Medium</value>
+</attribute>
+<attribute id="5029282" name="Priority" code="priority">
+<value code="request_priority_medium">3. Medium</value>
+</attribute>
+<attribute id="76312" name="SLA used" code="sla_used">
+<reference id="4995605" name="Default SLA"/>
+</attribute>
+<attribute id="76314" name="Target response" code="target_response_time">
+<value>20-04-2023 15:21:16</value>
+</attribute>
+<attribute id="76316" name="Target resolution" code="deadline">
+<value>25-04-2023 14:12:16</value>
+</attribute>
+<attribute id="76322" name="Status history" code="status_history">
+<reference id="13610768" name="20-04-2023 15:12:16"/>
+<reference id="13610857" name="20-04-2023 15:14:01"/>
+<reference id="13610865" name="20-04-2023 15:14:02"/>
+</attribute>
+<attribute id="75794" name="Self-Service ID" code="WebShopId">
+<value>3909d490-348a-47f9-8935-9b1e4a02a28a</value>
+</attribute>
+<attribute id="75796" name="Language" code="Language">
+<value>en_US</value>
+</attribute>
+<attribute id="75798" name="Site ID" code="SiteID">
+<value>AllUsers</value>
+</attribute>
+<attribute id="75800" name="Site name" code="SiteName">
+<value>All users</value>
+</attribute>
+<attribute id="4612324" name="Workflow status" code="workflow_status">
+<value>FINISHED</value>
+</attribute>
+<attribute id="74447" name="NDX ID" code="efecte_id">
+<value>SR-001704</value>
+</attribute>
+<attribute id="74449" name="Created" code="created">
+<value>20-04-2023 15:12:16</value>
+</attribute>
+<attribute id="74451" name="Updated" code="updated">
+<value>20-04-2023 15:14:02</value>
+</attribute>
+<attribute id="4214514" name="Creator" code="creator">
+<reference id="6351122" name="WebAPI"/>
+</attribute>
+<attribute id="4214538" name="Last update by" code="last_update_by">
+<reference id="12600061" name="WebAPI_Integration"/>
+</attribute>
+<attribute id="6322590" name="Repair Centre Payload" code="REPAIRCENTRE_PAYLOAD">
+<value>Partner", "lastname": "Admin", "email": "mark.howard@newburydigital.io", "phone": "", "address_line1": "", "address_line2": "", "city": "", "state": "", "postal_code": "", "country": "", "complaint": "", "notes": "", "courier": "Other", "tracking_number": "TMT001", "imei": "", "serial_number": "", "equipment_type": "", "brand": "", "model": "", "color": "", "carrier": "", } }</value>
+</attribute>
+</entity>
+</entityset>
+
+
+Assests -> Serial Number 
+
+
+type of authorization client and resource 
+oauth2 client and resource server

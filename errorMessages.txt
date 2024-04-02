@@ -1,0 +1,145 @@
+
+dmm-service
+
+throws error when required attributes is not there
+throw new JSONException("Error occurred while getting required attributes to download file");
+
+validation error
+throw new IOException("Unsupported file format. Only XLS and XLSX files are supported.");
+
+
+if we don't get success status from boomi for getCompanyAndSalesAgentUUID api then returns 
+getErrorMessage : TemplateCode :- (ServiceRequest), DataCardID :- (serviceRequestId), FileName :- (fileName), Api called internally :- (companyUserUUIDUrl), Error received from api :- (error response)
+
+
+
+
+
+
+
+bulk-upload-sales-agent-details 
+ 
+throws error when required attributes is not there
+throw new JSONException("Error occurred while getting required attributes to download file");
+
+validation error
+throw new IOException("Unsupported file format. Only XLS and XLSX files are supported.");
+
+VODAFONE_REPRESENTATIVE_EMAIL_ADDRESS_COL:
+Error Message (Invalid Email): File Error: Row no [row number] : Invalid or Empty data in column [VODAFONE_REPRESENTATIVE_EMAIL_ADDRESS_COL] within sheet [BULK_ORDER_DETAILS].
+Condition: The data in the "VODAFONE_REPRESENTATIVE_EMAIL_ADDRESS_COL" column of the specified row is either empty, or the email format does not match the allowed Vodafone email domains.
+
+VODAFONE_REPRESENTATIVE_EMAIL_ADDRESS_COL:
+Error Message (Invalid Email): File Error: Row no [row number] : Invalid or Empty data in column [VODAFONE_REPRESENTATIVE_EMAIL_ADDRESS_COL] within sheet [BULK_ORDER_DETAILS].
+Condition: The email format does not match the allowed Vodafone email domains.
+
+
+OPPORTUNITY_ID_COL:
+Error Message (Empty Value): No specific error message. An empty string is assigned to the corresponding key in the salesAgentDetails map.
+Condition: The data in the "OPPORTUNITY_ID_COL" column of the specified row is empty.
+
+CUSTOMER_OWN_REFERENCE_COL:
+Error Message (Empty Value): No specific error message. An empty string is assigned to the corresponding key in the salesAgentDetails map.
+Condition: The data in the "CUSTOMER_OWN_REFERENCE_COL" column of the specified row is empty.
+
+VODAFONE_OTHER_REFERENCE_COL:
+Error Message (Empty Value): No specific error message. An empty string is assigned to the corresponding key in the salesAgentDetails map.
+Condition: The data in the "VODAFONE_OTHER_REFERENCE_COL" column of the specified row is empty.
+
+OPPORTUNITY_CREATE_COMPANY_COL:
+Error Message (Invalid or Empty Value): File Error: Row no [row number] : Invalid or Empty data in column [OPPORTUNITY_CREATE_COMPANY_COL] within sheet [BULK_ORDER_DETAILS].
+Condition: The data in the "OPPORTUNITY_CREATE_COMPANY_COL" column of the specified row is either empty or invalid.
+
+OPPORTUNITY_CREATE_EMAIL_ID_COL:
+Error Message (Invalid or Empty Value): File Error: Row no [row number] : Invalid or Empty data in column [OPPORTUNITY_CREATE_EMAIL_ID_COL] within sheet [BULK_ORDER_DETAILS].
+Condition: The data in the "OPPORTUNITY_CREATE_EMAIL_ID_COL" column of the specified row is either empty or invalid.
+
+if bulk Order Details Sheet does not Exist
+Error msg - "File Error : Required sheet BulkOrderDetails is not present in the uploaded file." 
+
+if salesAgentDetailsResponse contains invalidSalesAgentDetails's response and invalidSalesAgentDetails's response contains "File Error : Required sheet"
+Error msg - "Excel file (FILE_NAME) attached in serviceRequest :  (SERVICE_REQUEST_ID)   does not have sheet with name BulkOrderDetails
+
+
+for general exception for uploaded file 
+update in SR data card
+Error while processing uploaded file : (errorMessage)
+
+
+Bulk-Order
+if orderItemResponse contains invalidExcelRowsDetails and validOrderItems then status will be 36 - Bulk Order Processed with Error
+Failed to update serviceRequest dataCard : (data card id)
+
+if orderItemResponse contains invalidExcelRowsDetails then status will be 37 - Bulk Order Failed
+Failed to update serviceRequest dataCard : (data card id)
+
+if bulk order sheet does not exist 
+update in SR data card
+File Error : Required sheet BulkOrderLines  is not present in the uploaded file.
+Excel file : (filename) for datacard : (data card id) doesn't have sheet with name as BulkOrderLines
+
+if number of records is greater then order line processed from the file and order line processed from the file is not zero
+Error msg : "Processed excel file : (filename) for dataCard : (data card id) with some incorrect data"
+
+if order line processed from the file is zero
+Error msg : "Excel file : (filename) for dataCard : (data card id) contains incorrect data in the file "
+
+
+for general exception for uploaded file 
+update in SR data card
+Error while processing uploaded file : (errorMessage)
+
+composeOrderItems
+Product_Code:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [Product_Code] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "Product_Code" column of the specified row is either empty or invalid.
+Lease_Duration:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [Lease_Duration] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "Lease_Duration" column of the specified row is either empty or invalid.
+QUANTITY:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [QUANTITY] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "QUANTITY" column of the specified row is either empty or invalid.
+CURRENCY:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [CURRENCY] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "CURRENCY" column of the specified row is either empty or invalid.
+RECIPIENT_EMAIL_ADDRESS_COL:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [RECIPIENT_EMAIL_ADDRESS_COL] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "RECIPIENT_EMAIL_ADDRESS_COL" column of the specified row is either empty or invalid.
+SHIPPING_ADDRESS_LINE_1:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_ADDRESS_LINE_1] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_ADDRESS_LINE_1" column of the specified row is either empty or invalid.
+SHIPPING_CITY:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_CITY] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_CITY" column of the specified row is either empty or invalid.
+SHIPPING_COUNTRY_CODE:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_COUNTRY_CODE] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_COUNTRY_CODE" column of the specified row is either empty or invalid.
+SHIPPING_NAME:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_NAME] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_NAME" column of the specified row is either empty or invalid.
+SHIPPING_POSTAL_CODE:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_POSTAL_CODE] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_POSTAL_CODE" column of the specified row is either empty or invalid.
+SHIPPING_SUB_DIVISION_CODE:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_SUB_DIVISION_CODE] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_SUB_DIVISION_CODE" column of the specified row is either empty or invalid.
+SHIPPING_SAME_AS_BILLING_ADDRESS:
+
+Error Message: File Error: Row no [row number] : Invalid or Empty data in column [SHIPPING_SAME_AS_BILLING_ADDRESS] within sheet [BULK_ORDER_LINES].
+Condition: The data in the "SHIPPING_SAME_AS_BILLING_ADDRESS" column of the specified row is either empty or invalid.
+
+
+
+
+

@@ -1,0 +1,44 @@
+if we want to push our code on github, open folder which contains codes and do cmd.
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/mohitjhankal/Bulk-allocation-microservice.git
+git push -u origin main
+
+now we have push the code on github and we made new changes to code and want to push those changes on same branch.
+
+go to folder and do cmd
+
+first check status to check what changes will be there
+
+-> git status
+-> git add .
+-> git commit -m "commit_remark"
+-> git push origin branch_name
+
+settings -> developer settings -> personal access tokens -> tokens to generate token
+-> whimsical
+
+Trunk based development -> You create a new branch.
+You write and commit your code.
+You push the commits to the remote repo on GitHub.
+You open a Pull Request (PR).
+You wait for the Continuous Integration pipelines to pass.
+You request a review from other developers and discuss the code.
+Once the PR is approved you merge it to the main branch.
+
+1 . One important part is that you can't push commits directly to the main branch.
+
+Thus our first step is to create a new branch. We can use the -b option to create and check out a branch at the same time. Since this will be the first move of the first game let's use the name move-1-1.
+
+this code we write in VSCode
+PS C:\Users\mohit.jhankal\desktop\github\profydev\github-minesweeper-mohitjhankal> git checkout -b move-1-1
+
+git checkout -b move-1-1
+
+Siddhant singh, 6 min
+https://newburydigital.awsapps.com/start#/
+
+git clone codecommit://CodeCommitDeveloperAccess@NB-Bulk-Allocation -b develop
+git clone codecommit://CodeCommitDeveloperAccess@nb-revola-dmm-service -b uat

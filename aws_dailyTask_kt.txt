@@ -1,0 +1,4 @@
+login into aws -> 11AM -> UAT -> EC2 -> check status Running
+Scheduler : search lambda -> Then we have RDB and EC2 (start and stop) -> to check schedulers -> EventBridge ->  Ec2_Instance_Start_Rule(to change scheduler and to disable as per requirement)
+for error 404 not found in omm test(Auto scaling group) terminate eu-west-3a 
+for error 502 bad gateway in EC2 instances -> search dmm -> UAT-tenant1-dmm-app -> reboot instance
