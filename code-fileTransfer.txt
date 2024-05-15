@@ -1,0 +1,717 @@
+Code of NB-File-Transfer : send file from ftp server to sftp server 
+
+1. controller :
+package com.newbury.revola.controller;
+
+import com.newbury.revola.service.FileTransferService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController
+@RequestMapping("/api")
+public class FileTransferAPI {
+
+    @Autowired
+    private FileTransferService fileTransferService;
+
+    @GetMapping("/fileTransfer")
+    public ResponseEntity<String> initiateFileTransfer() {
+        fileTransferService.transferAllFromFTPToSFTP();
+        return ResponseEntity.ok().body("Data Transferred successfully");
+    }
+
+}
+
+2.1 Domain : 
+package com.newbury.revola.domain;
+
+public class AccessTokenDetails {
+
+    private String access_token;
+    private String token_type;
+    private String refresh_token;
+    private String expires_in;
+    private String scope;
+    private String jti;
+
+    public AccessTokenDetails() {
+        super();
+    }
+
+    public AccessTokenDetails(String access_token, String token_type, String refresh_token, String expires_in,
+                              String scope, String jti) {
+        super();
+        this.access_token = access_token;
+        this.token_type = token_type;
+        this.refresh_token = refresh_token;
+        this.expires_in = expires_in;
+        this.scope = scope;
+        this.jti = jti;
+    }
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
+    }
+
+    public String getToken_type() {
+        return token_type;
+    }
+
+    public void setToken_type(String token_type) {
+        this.token_type = token_type;
+    }
+
+    public String getRefresh_token() {
+        return refresh_token;
+    }
+
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
+    }
+
+    public String getExpires_in() {
+        return expires_in;
+    }
+
+    public void setExpires_in(String expires_in) {
+        this.expires_in = expires_in;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public String getJti() {
+        return jti;
+    }
+
+    public void setJti(String jti) {
+        this.jti = jti;
+    }
+
+}
+
+
+2.2 : 
+package com.newbury.revola.domain;
+
+
+public class FTPClientDetails {
+
+    private Long id;
+    private String ftp_client_name;
+    private String ftpHost;
+    private int ftpPort;
+    private String ftpUsername;
+    private String ftpPassword;
+    private String ftpFilePath;
+
+    private String sftpHost;
+    private int sftpPort;
+    private String sftpUsername;
+    private String sftpFilePath;
+
+    public FTPClientDetails(){
+    }
+
+    public FTPClientDetails(Long id, String ftp_client_name, String ftpHost, int ftpPort, String ftpUsername, String ftpPassword,
+                            String ftpFilePath, String sftpHost, int sftpPort, String sftpUsername, String sftpFilePath) {
+        super();
+        this.id = id;
+        this.ftp_client_name = ftp_client_name;
+        this.ftpHost = ftpHost;
+        this.ftpPort = ftpPort;
+        this.ftpUsername = ftpUsername;
+        this.ftpPassword = ftpPassword;
+        this.ftpFilePath = ftpFilePath;
+        this.sftpHost = sftpHost;
+        this.sftpPort = sftpPort;
+        this.sftpUsername = sftpUsername;
+        this.sftpFilePath = sftpFilePath;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFtp_client_name() {
+        return ftp_client_name;
+    }
+
+    public void setFtp_client_name(String ftp_client_name) {
+        this.ftp_client_name = ftp_client_name;
+    }
+
+    public String getFtpHost() {
+        return ftpHost;
+    }
+
+    public void setFtpHost(String ftpHost) {
+        this.ftpHost = ftpHost;
+    }
+
+    public int getFtpPort() {
+        return ftpPort;
+    }
+
+    public void setFtpPort(int ftpPort) {
+        this.ftpPort = ftpPort;
+    }
+
+    public String getFtpUsername() {
+        return ftpUsername;
+    }
+
+    public void setFtpUsername(String ftpUsername) {
+        this.ftpUsername = ftpUsername;
+    }
+
+    public String getFtpPassword() {
+        return ftpPassword;
+    }
+
+    public void setFtpPassword(String ftpPassword) {
+        this.ftpPassword = ftpPassword;
+    }
+
+    public String getFtpFilePath() {
+        return ftpFilePath;
+    }
+
+    public void setFtpFilePath(String ftpFilePath) {
+        this.ftpFilePath = ftpFilePath;
+    }
+
+    public String getSftpHost() {
+        return sftpHost;
+    }
+
+    public void setSftpHost(String sftpHost) {
+        this.sftpHost = sftpHost;
+    }
+
+    public int getSftpPort() {
+        return sftpPort;
+    }
+
+    public void setSftpPort(int sftpPort) {
+        this.sftpPort = sftpPort;
+    }
+
+    public String getSftpUsername() {
+        return sftpUsername;
+    }
+
+    public void setSftpUsername(String sftpUsername) {
+        this.sftpUsername = sftpUsername;
+    }
+
+    public String getSftpFilePath() {
+        return sftpFilePath;
+    }
+
+    public void setSftpFilePath(String sftpFilePath) {
+        this.sftpFilePath = sftpFilePath;
+    }
+
+    @Override
+    public String toString() {
+        return "FTPClientDetails [id=" + id + ", ftp_client_name=" + ftp_client_name + ", ftpHost=" + ftpHost
+                + ", ftpPort=" + ftpPort + ", ftpUsername=" + ftpUsername + ", ftpPassword=" + ftpPassword
+                + ", ftpFilePath=" + ftpFilePath + ", sftpHost=" + sftpHost + ", sftpPort=" + sftpPort
+                + ", sftpUsername=" + sftpUsername + ", sftpFilePath=" + sftpFilePath + "]";
+    }
+
+}
+
+3.1 : 
+package com.newbury.revola.proxy;
+
+import com.newbury.revola.domain.FTPClientDetails;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
+
+@FeignClient(name = "NB-Database-Connector", url = "${load-Balancer.url}")
+public interface DatabaseConnectorProxy {
+
+    @GetMapping("/api/ftp-sftp-details")
+    List<FTPClientDetails> retrieveData();
+
+}
+
+3.2
+package com.newbury.revola.proxy;
+
+
+import com.newbury.revola.service.AccessTokenGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.stereotype.Component;
+
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+
+@Component
+public class FeignClientInterceptor implements RequestInterceptor {
+
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String TOKEN_TYPE = "Bearer";
+
+    @Autowired
+    AccessTokenGenerator accessTokenGenerator;
+
+    @Override
+    public void apply(RequestTemplate requestTemplate) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getDetails() instanceof OAuth2AuthenticationDetails) {
+            OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
+            requestTemplate.header(AUTHORIZATION_HEADER, String.format("%s %s", TOKEN_TYPE, details.getTokenValue()));
+        }else{
+            requestTemplate.header(AUTHORIZATION_HEADER,
+                    String.format("%s %s", TOKEN_TYPE, accessTokenGenerator.generateToken()));
+        }
+    }
+}
+
+4. 
+package com.newbury.revola.scheduler.task;
+
+import com.newbury.revola.service.FileTransferService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+@Component
+@EnableScheduling
+public class TransferDataScheduler  {
+
+    private Logger log = LoggerFactory.getLogger(TransferDataScheduler.class);
+
+    @Autowired
+    public FileTransferService fileTransferService;
+
+
+    @Scheduled(cron = "${cron.expression.to-fetch-ftpClientDetails}")
+    public void cronJobForDataTransfer(){
+        log.info("Scheduler Started --------- ");
+        fileTransferService.transferAllFromFTPToSFTP();
+    }
+
+}
+
+
+5.1 service : 
+package com.newbury.revola.service;
+
+import java.util.Arrays;
+
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import com.newbury.revola.domain.AccessTokenDetails;
+
+@Component
+public class AccessTokenGenerator {
+
+    @Value("${client.id}")
+    String clientId;
+
+    @Value("${client.secret}")
+    String clientSecret;
+
+    @Value("${client.access.token.endpoint}")
+    String clientAccessToken;
+
+    @Value("${client.grant.type}")
+    String clientGrantType;
+
+    @Value("${security.user.name}")
+    String clientUsername;
+
+    @Value("${security.user.password}")
+    String clientPassword;
+
+    public String generateToken() {
+
+        ResponseEntity<AccessTokenDetails> response = null;
+        RestTemplate restTemplate = new RestTemplate();
+
+        String credentials = clientId + ":" + clientSecret;
+        String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes()));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.add("Authorization", "Basic " + encodedCredentials);
+
+        HttpEntity<String> request = new HttpEntity<String>(headers);
+
+        String access_token_url = clientAccessToken + "?grant_type=" + clientGrantType + "&username=" + clientUsername
+                + "&password=" + clientPassword;
+        response = restTemplate.exchange(access_token_url, HttpMethod.POST, request, AccessTokenDetails.class);
+
+        return response.getBody().getAccess_token();
+
+    }
+}
+
+5.2 
+package com.newbury.revola.service;
+
+import com.jcraft.jsch.*;
+import com.newbury.revola.domain.FTPClientDetails;
+import com.newbury.revola.proxy.DatabaseConnectorProxy;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.List;
+
+@Service
+public class FileTransferService {
+
+    private final Logger log = LoggerFactory.getLogger(FileTransferService.class);
+
+    @Value("${sftp.session.timeout}")
+    private int sessionTimeout;
+
+    @Value("${sftp.channel.timeout}")
+    private int channelTimeout;
+
+    @Value("${known.hosts}")
+    private String knownHosts;
+
+    @Value("${ssh.private-key}")
+    private String privateKey;
+
+
+    @Autowired
+    private DatabaseConnectorProxy databaseConnectorProxy;
+
+    public void transferAllFromFTPToSFTP() {
+        log.info("transferAllFromFTPToSFTP method started ---------- ");
+        List<FTPClientDetails> ftpSftpDetails = databaseConnectorProxy.retrieveData();
+        for (FTPClientDetails ftpSftpDetail : ftpSftpDetails) {
+            try {
+                byte[] decodedByte = Base64.getDecoder().decode(ftpSftpDetail.getFtpPassword());
+                String ftpDecodedPassword = new String(decodedByte);
+                transferFromFTPToSFTP(ftpSftpDetail.getFtpHost(), ftpSftpDetail.getFtpPort(),
+                        ftpSftpDetail.getFtpUsername(), ftpDecodedPassword,
+                        ftpSftpDetail.getFtpFilePath(), ftpSftpDetail.getSftpHost(),
+                        ftpSftpDetail.getSftpPort(), ftpSftpDetail.getSftpUsername(),
+                        ftpSftpDetail.getSftpFilePath());
+            } catch (JSchException | SftpException | IOException e) {
+                log.error("Error occurred during file transfer: {}", e.getMessage());
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+    }
+
+
+    public void transferFromFTPToSFTP(String ftpHost, int ftpPort, String ftpUser, String ftpPassword,
+                                      String sourcePath, String sftpHost, int sftpPort, String sftpUsername, String sftpFilePath) throws IOException, JSchException, SftpException {
+
+        FTPClient ftpClient = new FTPClient();
+        try {
+            ftpClient.connect(ftpHost, ftpPort);
+            ftpClient.login(ftpUser, ftpPassword);
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+            log.info("Connected to FTP server {}:{}", ftpHost, ftpPort);
+
+            JSch jsch = new JSch();
+            byte[] bytes = knownHosts.getBytes(StandardCharsets.UTF_8);
+            jsch.setKnownHosts(new ByteArrayInputStream(bytes));
+            Session jschSession = jsch.getSession(sftpUsername, sftpHost, sftpPort);
+            jsch.addIdentity("privateKey", privateKey.getBytes(), null, null);
+            jschSession.connect(sessionTimeout);
+
+            Channel sftp = jschSession.openChannel("sftp");
+            sftp.connect(channelTimeout);
+            ChannelSftp channelSftp = (ChannelSftp) sftp;
+            log.info("Connected to SFTP server {}:{}", sftpHost, sftpPort);
+
+            try {
+                String remoteFileName = new File(sourcePath).getName();
+
+                URL url = new URL("ftp://" + ftpUser + ":"+ftpPassword+ "@" + ftpHost + sourcePath);
+                URLConnection connection = url.openConnection();
+                InputStream inputStream = connection.getInputStream();
+
+                channelSftp.put(inputStream, sftpFilePath + remoteFileName);
+
+                inputStream.close();
+                log.info("File transferred successfully to SFTP server");
+            } catch (IOException | SftpException e) {
+                log.error("Error occurred during file transfer: {}", e.getMessage());
+            }
+
+            channelSftp.exit();
+            ftpClient.logout();
+            ftpClient.disconnect();
+        } catch (JSchException | IOException e) {
+            log.error("Error occurred during file transfer: {}", e.getMessage());
+            throw e;
+        }
+    }
+}
+
+6. application.yml 
+spring:
+  application:
+    name: NB-File-Transfer
+
+server:
+  port: 8080
+
+load-Balancer:
+  url: http://ab05816a-microservice-supp-6255-1109775740.eu-west-3.elb.amazonaws.com
+
+security:
+  jwt:
+    public-key: classpath:nbrevola-cert.txt
+  user:
+    name: newbury
+    password: nbrevola@123
+
+client:
+  access:
+    token:
+      endpoint: http://ab05816a-microservice-supp-6255-1109775740.eu-west-3.elb.amazonaws.com/oauth/token
+
+cron:
+  expression:
+    to-fetch-ftpClientDetails : 0 */1 * * * *
+
+ssh:
+  private-key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    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
+    -----END RSA PRIVATE KEY-----
+
+known:
+  hosts: |
+    s-718e563e925242ceb.server.transfer.eu-west-3.amazonaws.com ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAAyPfDMhj6OPzNvj7UQ0GxkyisNxHYqEEYWOsF2zJiBihrAZCSsezBdc9ovhCWZpDSV8dkaBxNKh27PrtPKmTsauAF6X7WNxAqzNDpoIHj+XtcOP6IxBPZjECX0kA5Gwxx9Leuinct8o3/pJbNCcNVvGadVLIkm4WwE5cXPxnSbudTvQQ==
+
+7. pom.xml : 
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.12</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.newbury.revola</groupId>
+	<artifactId>NB-File-Transfer</artifactId>
+	<version>1.0</version>
+	<name>NB-File-Transfer</name>
+	<description>Demo project for Spring Boot</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- Apache Commons Net for FTP -->
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.8.0</version>
+		</dependency>
+
+		<!-- JSch for SFTP -->
+		<dependency>
+			<groupId>com.github.mwiede</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.58</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.messaging.saaj</groupId>
+			<artifactId>saaj-impl</artifactId>
+			<version>1.5.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security.oauth.boot</groupId>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+			<version>2.1.2.RELEASE</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.7.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.7.0.1746</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.pivotal.spring.cloud</groupId>
+				<artifactId>spring-cloud-services-dependencies</artifactId>
+				<version>${spring-cloud-services.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-dependencies</artifactId>
+				<version>${spring-boot-admin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<properties>
+		<spring-cloud.version>2020.0.4</spring-cloud.version>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>17</java.version>
+		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-cloud-services.version>2.3.0.RELEASE</spring-cloud-services.version>
+	</properties>
+
+</project>
+
+

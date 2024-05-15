@@ -1,0 +1,1074 @@
+In EN-170 Scheduler bit,
+nb-revola-dmm-service
+changes made
+1. we need to change DevOps file also
+2. In config, we can delete SchedulerConfig.
+3. In Domain we can delete -> Scheduler.
+3. In dto -> deleted -> SchedulerDto
+4. we can remove repository, it was only used for AssetsScheduler.
+5. code change in scheduler.task  FetchAssetsSchedulerSync
+6. In service we have deleted SchedulerServiceImpl
+7. removed controller 
+8. Add cronScheduler value in application.yml and in dev also, removed datasource and jpa in application.yml.
+
+
+1 SchedulerConfig : 
+package com.newbury.revola.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+
+@Configuration
+public class SchedulerConfig {
+
+    @Bean
+    @Primary
+    public TaskScheduler taskScheduler() {
+        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+        scheduler.setThreadNamePrefix("DMM_SYNC_SCHEDULER");
+        scheduler.setPoolSize(5);
+        scheduler.setAwaitTerminationSeconds(210);
+        scheduler.setWaitForTasksToCompleteOnShutdown(true);
+        scheduler.setRemoveOnCancelPolicy(true);
+        scheduler.initialize();
+        return scheduler;
+    }
+}
+
+2. In Domain Scheduler :
+
+package com.newbury.revola.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "schedulers", schema = "public")
+public class Scheduler {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String name;
+
+    private long delay;
+
+    private long initialDelay;
+
+    private boolean isWorking;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public boolean isWorking() {
+        return isWorking;
+    }
+
+    public void setWorking(boolean working) {
+        isWorking = working;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getDelay() {
+        return delay;
+    }
+
+    public void setDelay(long delay) {
+        this.delay = delay;
+    }
+
+
+    public long getInitialDelay() {
+        return initialDelay;
+    }
+
+    public void setInitialDelay(long initialDelay) {
+        this.initialDelay = initialDelay;
+    }
+}
+
+3: In dto : SchedulerDto
+
+package com.newbury.revola.dto;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class SchedulerDto {
+
+    String name;
+    Long initialDelay;
+    Long delay;
+    Boolean isRunning;
+
+    public SchedulerDto() {
+    }
+
+    public SchedulerDto(String name, Long initialDelay, Long delay, Boolean isRunning) {
+        this.name = name;
+        this.initialDelay = initialDelay;
+        this.delay = delay;
+        this.isRunning = isRunning;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getInitialDelay() {
+        return initialDelay;
+    }
+
+    public void setInitialDelay(Long initialDelay) {
+        this.initialDelay = initialDelay;
+    }
+
+    public Long getDelay() {
+        return delay;
+    }
+
+    public void setDelay(Long delay) {
+        this.delay = delay;
+    }
+
+    public Boolean getRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(Boolean running) {
+        isRunning = running;
+    }
+
+    @Override
+    public String toString() {
+        return "SchedulerDto{" +
+                "name='" + name + '\'' +
+                ", initialDelay=" + initialDelay +
+                ", delay=" + delay +
+                ", isRunning=" + isRunning +
+                '}';
+    }
+}
+
+4. Removed repository -> SchedulerRepository : 
+package com.newbury.revola.repository;
+
+import com.newbury.revola.domain.Scheduler;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+public interface SchedulerRepository extends JpaRepository<Scheduler, Integer> {
+
+    Optional<Scheduler> findSchedulerByName(String name);
+
+    @Query(value = "select sch.delay from Scheduler sch where sch.name= :name")
+    Long getSchedulerDelayByName(String name);
+
+    @Query(value = "select sch.isWorking from Scheduler sch where sch.name= :name")
+    Boolean isSchedulerRunning(String name);
+}
+
+5. Code change in FetchAssetsSchedulerSync : 
+package com.newbury.revola.scheduler.task;
+
+import com.newbury.revola.service.FetchAssetsSchedulerService;
+import com.newbury.revola.service.SchedulerServiceImpl;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import org.springframework.stereotype.Component;
+
+@Component
+@EnableScheduling
+public class FetchAssetsSchedulerSync implements SchedulingConfigurer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FetchAssetsSchedulerSync.class);
+    private static final String CREATED = "Created";
+    private static final String DESPATCHED = "Despatched";
+    private static final String PLACED = "Placed";
+    private static boolean startAll = false;
+
+    @Autowired
+    private TaskScheduler assetsTaskScheduler;
+
+    @Autowired
+    private FetchAssetsSchedulerService fetchAssetsSchedulerService;
+
+    @Autowired
+    private SchedulerServiceImpl schedulerService;
+
+    private ScheduledTaskRegistrar scheduledTaskRegistrar;
+    private ScheduledFuture<?> scheduledCreatedFuture;
+    private ScheduledFuture<?> scheduledDespatchedFuture;
+    private ScheduledFuture<?> scheduledPlacedFuture;
+
+    private long fixedDelayCreated = 5;
+    private long fixedDelayDespatched = 5;
+    private long fixedDelayPlaced = 5;
+    private long initDelayCreated = 0;
+    private long initDelayDespached = 0;
+    private long initDelayPlaced = 0;
+
+    private Date nextScheduleTimeCreated;
+    private Date nextScheduleTimeDespatched;
+    private Date nextScheduleTimePlaced;
+
+    @Override
+    public synchronized void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
+        if (this.scheduledTaskRegistrar == null) {
+            this.scheduledTaskRegistrar = scheduledTaskRegistrar;
+        }
+
+        this.scheduledTaskRegistrar.setScheduler(assetsTaskScheduler);
+
+        startScheduledFutureCreated();
+        startScheduledFutureDespatched();
+        startScheduledFuturePlaced();
+    }
+
+    private void startScheduledFutureCreated() {
+        if (!schedulerService.findByName(CREATED).isPresent()) {
+            schedulerService.createScheduler(CREATED, true, this.fixedDelayCreated, this.initDelayCreated);
+            runScheduledFutureCreated();
+        } else {
+            if (startAll) {
+                startAll = false;
+                schedulerService.updateScheduler(CREATED, true, this.fixedDelayCreated, this.initDelayCreated);
+                runScheduledFutureCreated();
+                return;
+            }
+            boolean isRunning = schedulerService.isSchedulerRunning(CREATED);
+            if (isRunning) {
+                this.fixedDelayCreated = schedulerService.getDelayByStatus(CREATED);
+                runScheduledFutureCreated();
+            }
+        }
+    }
+
+    private void startScheduledFutureDespatched() {
+        if (!schedulerService.findByName(DESPATCHED).isPresent()) {
+            schedulerService.createScheduler(DESPATCHED, true, this.fixedDelayDespatched, this.initDelayDespached);
+            runScheduledFutureDespatched();
+        } else {
+            if (startAll) {
+                startAll = false;
+                schedulerService.updateScheduler(DESPATCHED, true, this.fixedDelayDespatched, this.initDelayDespached);
+                runScheduledFutureDespatched();
+                return;
+            }
+            boolean isRunning = schedulerService.isSchedulerRunning(DESPATCHED);
+            if (isRunning) {
+                this.fixedDelayDespatched = schedulerService.getDelayByStatus(DESPATCHED);
+                runScheduledFutureDespatched();
+            }
+        }
+    }
+
+    private void startScheduledFuturePlaced() {
+        if (!schedulerService.findByName(PLACED).isPresent()) {
+            schedulerService.createScheduler(PLACED, true, this.fixedDelayPlaced, this.initDelayPlaced);
+            runScheduledFuturePlaced();
+        } else {
+            if (startAll) {
+                startAll = false;
+                schedulerService.updateScheduler(PLACED, true, this.fixedDelayPlaced, this.initDelayPlaced);
+                runScheduledFuturePlaced();
+                return;
+            }
+            boolean isRunning = schedulerService.isSchedulerRunning(PLACED);
+            if (isRunning) {
+                this.fixedDelayPlaced = schedulerService.getDelayByStatus(PLACED);
+                runScheduledFuturePlaced();
+            }
+        }
+    }
+
+    public void runScheduledFutureCreated() {
+        scheduledCreatedFuture = this.scheduledTaskRegistrar.getScheduler().scheduleWithFixedDelay(
+                () -> {
+                    try {
+                        if (this.initDelayCreated != 0) {
+                            TimeUnit.SECONDS.sleep(this.initDelayCreated);
+                            this.initDelayCreated = 0;
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    LOGGER.info("runScheduledFutureCreated method");
+                    this.nextScheduleTimeCreated = setNextScheduleTime(this.fixedDelayCreated);
+                    fetchAssetsSchedulerService.fetchAssetsByStatusCreatedAndAssetSupplierTechData();
+                }, this.fixedDelayCreated * 1000);
+    }
+
+    public void runScheduledFutureDespatched() {
+        scheduledDespatchedFuture = this.scheduledTaskRegistrar.getScheduler().scheduleWithFixedDelay(
+                () -> {
+                    try {
+                        if (this.initDelayDespached != 0) {
+                            TimeUnit.SECONDS.sleep(this.initDelayDespached);
+                            this.initDelayDespached = 0;
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    LOGGER.info("runScheduledFutureDespatched method");
+                    this.nextScheduleTimeDespatched = setNextScheduleTime(this.fixedDelayDespatched);
+                    fetchAssetsSchedulerService.fetchAssetsByStatusDespatchedAndAssetSupplierTechData();
+                }, this.fixedDelayDespatched * 1000);
+    }
+
+    public void runScheduledFuturePlaced() {
+        scheduledPlacedFuture = this.scheduledTaskRegistrar.getScheduler().scheduleWithFixedDelay(
+                () -> {
+                    try {
+                        TimeUnit.SECONDS.sleep(this.initDelayPlaced);
+                        this.initDelayPlaced = 0;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    LOGGER.info("runScheduledFuturePlaced method");
+                    LOGGER.info("-------------------------------------------------------------");
+                    this.nextScheduleTimePlaced = setNextScheduleTime(this.fixedDelayPlaced);
+                    fetchAssetsSchedulerService.fetchAssetsByStatusPlacedAndAssetSupplierTechData();
+                }, this.fixedDelayPlaced * 1000);
+    }
+
+    public String runSchedulerBasedOnStatus(String status, long delay) {
+        if (CREATED.equalsIgnoreCase(status)) {
+            if (scheduledCreatedFuture!= null) {
+                this.scheduledCreatedFuture.cancel(false);
+            }
+            this.fixedDelayCreated = delay;
+            runScheduledFutureCreated();
+            schedulerService.updateScheduler(CREATED, true, this.fixedDelayCreated, this.initDelayCreated);
+            return "Scheduler for status " + status + " started with fixed delay = " + delay;
+        }
+        if (DESPATCHED.equalsIgnoreCase(status)) {
+            if (scheduledDespatchedFuture != null) {
+                this.scheduledDespatchedFuture.cancel(false);
+            }
+            this.fixedDelayDespatched = delay;
+            runScheduledFutureDespatched();
+            schedulerService.updateScheduler(DESPATCHED, true, this.fixedDelayDespatched, this.initDelayDespached);
+            return "Scheduler for status " + status + " started with fixed delay = " + delay;
+        }
+        if (PLACED.equalsIgnoreCase(status)) {
+            if (scheduledPlacedFuture != null) {
+                this.scheduledPlacedFuture.cancel(false);
+            }
+            this.fixedDelayPlaced = delay;
+            runScheduledFuturePlaced();
+            schedulerService.updateScheduler(PLACED, true, this.fixedDelayPlaced, this.initDelayPlaced);
+            return "Scheduler for status " + status + " started with fixed delay = " + delay;
+        }
+        return "";
+    }
+
+    public String updateSchedulerFixedDelay(String status, long fixedDelay) {
+        if (CREATED.equalsIgnoreCase(status)) {
+            if (this.scheduledCreatedFuture != null) {
+                this.scheduledCreatedFuture.cancel(false);
+            }
+            this.fixedDelayCreated = fixedDelay;
+            runScheduledFutureCreated();
+            schedulerService.updateScheduler(CREATED, true, this.fixedDelayCreated, this.initDelayCreated);
+            return "Scheduler for status " + status + " updated with fixed delay = " + fixedDelay;
+        }
+        if (DESPATCHED.equalsIgnoreCase(status)) {
+            if (this.scheduledDespatchedFuture != null) {
+                this.scheduledDespatchedFuture.cancel(false);
+            }
+            this.fixedDelayDespatched = fixedDelay;
+            runScheduledFutureDespatched();
+            schedulerService.updateScheduler(DESPATCHED, true, this.fixedDelayDespatched, this.initDelayDespached);
+            return "Scheduler for status " + status + " updated with fixed delay = " + fixedDelay;
+        }
+        if (PLACED.equalsIgnoreCase(status)) {
+            this.scheduledPlacedFuture.cancel(false);
+            this.fixedDelayPlaced = fixedDelay;
+            runScheduledFuturePlaced();
+            schedulerService.updateScheduler(PLACED, true, this.fixedDelayPlaced, this.initDelayPlaced);
+            return "Scheduler for status " + status + " updated with fixed delay = " + fixedDelay;
+        }
+        return "";
+    }
+
+    public String startAllSchedulersSequentially(long delaySeconds) {
+        startAll = true;
+        if (this.scheduledCreatedFuture != null && this.scheduledDespatchedFuture != null && this.scheduledPlacedFuture != null) {
+            this.scheduledCreatedFuture.cancel(false);
+            this.scheduledDespatchedFuture.cancel(false);
+            this.scheduledPlacedFuture.cancel(false);
+        }
+
+        this.fixedDelayCreated = delaySeconds * 3;
+        this.fixedDelayDespatched = delaySeconds * 3;
+        this.fixedDelayPlaced = delaySeconds * 3;
+
+        this.initDelayCreated = 0;
+        this.initDelayDespached = delaySeconds;
+        this.initDelayPlaced = delaySeconds * 2;
+
+        schedulerService.updateScheduler(CREATED, true, this.fixedDelayCreated, this.initDelayCreated);
+        schedulerService.updateScheduler(DESPATCHED, true, this.fixedDelayDespatched, this.initDelayDespached);
+        schedulerService.updateScheduler(PLACED, true, this.fixedDelayPlaced, this.initDelayPlaced);
+
+        LOGGER.info("startAllSchedulers started with delay = " + delaySeconds);
+        configureTasks(this.scheduledTaskRegistrar);
+        return "Schedulers started with fixed delay = " + delaySeconds;
+    }
+
+    public String startAllSchedulers(long delaySeconds) {
+        startAll = true;
+        if (this.scheduledCreatedFuture != null) {
+            this.scheduledCreatedFuture.cancel(false);
+        }
+        if (this.scheduledDespatchedFuture != null) {
+            this.scheduledDespatchedFuture.cancel(false);
+        }
+        if (this.scheduledPlacedFuture != null) {
+            this.scheduledPlacedFuture.cancel(false);
+        }
+
+        this.fixedDelayCreated = delaySeconds;
+        this.fixedDelayDespatched = delaySeconds;
+        this.fixedDelayPlaced = delaySeconds;
+
+        this.initDelayCreated = 0;
+        this.initDelayDespached = 0;
+        this.initDelayPlaced = 0;
+
+        schedulerService.updateScheduler(CREATED, true, this.fixedDelayCreated, this.initDelayCreated);
+        schedulerService.updateScheduler(DESPATCHED, true, this.fixedDelayDespatched, this.initDelayDespached);
+        schedulerService.updateScheduler(PLACED, true, this.fixedDelayPlaced, this.initDelayPlaced);
+
+        LOGGER.info("startAllSchedulers started with delay = " + delaySeconds);
+        configureTasks(this.scheduledTaskRegistrar);
+        return "Schedulers started with fixed delay = " + delaySeconds;
+    }
+
+    public String stopSchedulerBasedOnStatus(String status) {
+        if (CREATED.equalsIgnoreCase(status)) {
+            if (this.scheduledCreatedFuture == null) {
+                return "Scheduler " + status + " is not running";
+            }
+            boolean cancelCreated = this.scheduledCreatedFuture.cancel(false);
+            schedulerService.updateScheduler(CREATED, false, this.fixedDelayCreated, this.initDelayCreated);
+            return "Scheduler for " + status + " status stopped.\nscheduledCreatedFuture.cancel() returned " + cancelCreated + ", isCancelled() : " + scheduledCreatedFuture.isCancelled() + ", isDone : "+ scheduledCreatedFuture.isDone();
+        }
+        if (DESPATCHED.equalsIgnoreCase(status)) {
+            if (this.scheduledDespatchedFuture == null) {
+                return "Scheduler " + status + " is not running";
+            }
+            boolean cancelDespatched = this.scheduledDespatchedFuture.cancel(false);
+            schedulerService.updateScheduler(DESPATCHED, false, this.fixedDelayDespatched, this.initDelayDespached);
+            return "Scheduler for " + status + " status stopped.\nscheduledDespatchedFuture.cancel() returned " + cancelDespatched + ", isCancelled() : " + scheduledDespatchedFuture.isCancelled() + ", isDone : "+ scheduledDespatchedFuture.isDone();
+        }
+        if (PLACED.equalsIgnoreCase(status)) {
+            if (this.scheduledPlacedFuture == null) {
+                return "Scheduler " + status + " is not running";
+            }
+            boolean cancelPlaced = this.scheduledPlacedFuture.cancel(false);
+            schedulerService.updateScheduler(PLACED, false, this.fixedDelayPlaced, this.initDelayPlaced);
+            return "Scheduler for " + status + " status stopped.\nscheduledPlacedFuture.cancel() returned " + cancelPlaced + ", isCancelled() : " + scheduledPlacedFuture.isCancelled() + ", isDone : "+ scheduledPlacedFuture.isDone();
+        }
+        return "";
+    }
+
+    public String stopAllSchedulers() {
+        boolean cancelCreated = false, cancelDespatched = false, cancelPlaced = false;
+        if (this.scheduledCreatedFuture != null) {
+            cancelCreated = this.scheduledCreatedFuture.cancel(false);
+        }
+        if (this.scheduledDespatchedFuture != null) {
+            cancelDespatched = this.scheduledDespatchedFuture.cancel(false);
+        }
+        if (this.scheduledPlacedFuture != null) {
+            cancelPlaced = this.scheduledPlacedFuture.cancel(false);
+        }
+
+        schedulerService.updateScheduler(CREATED, false, this.fixedDelayCreated, this.initDelayCreated);
+        schedulerService.updateScheduler(DESPATCHED, false, this.fixedDelayDespatched, this.initDelayDespached);
+        schedulerService.updateScheduler(PLACED, false, this.fixedDelayPlaced, this.initDelayPlaced);
+
+        Boolean createdFutureCancelled = scheduledCreatedFuture != null ? scheduledCreatedFuture.isCancelled() : null;
+        Boolean despatchedFutureCancelled = scheduledDespatchedFuture != null ? scheduledDespatchedFuture.isCancelled() : null;
+        Boolean placedFutureCancelled = scheduledPlacedFuture != null ? scheduledPlacedFuture.isCancelled() : null;
+        Boolean createdFutureIsDone = scheduledCreatedFuture != null ? scheduledCreatedFuture.isDone() : null;
+        Boolean despatchedFutureIsDone = scheduledDespatchedFuture != null ? scheduledDespatchedFuture.isDone() : null;
+        Boolean placedFutureIsDone = scheduledPlacedFuture != null ? scheduledPlacedFuture.isDone() : null;
+
+        LOGGER.info("scheduledCreatedFuture.cancel() returned {}, isCancelled() : {}, isDone : {}", cancelCreated, createdFutureCancelled, createdFutureIsDone);
+        LOGGER.info("scheduledDespatchedFuture.cancel() returned {}. isCancelled() : {}, isDone : {}", cancelDespatched, despatchedFutureCancelled, despatchedFutureIsDone);
+        LOGGER.info("scheduledPlacedFuture.cancel() returned {}. isCancelled() : {}, isDone : {}", cancelPlaced, placedFutureCancelled, placedFutureIsDone);
+        return "Stop all schedulers.\nscheduledCreatedFuture.cancel() returned " + cancelCreated + ", isCancelled() : " + createdFutureCancelled + ", isDone : "+ createdFutureIsDone + "\n" + "scheduledDespatchedFuture.cancel() returned " + cancelDespatched + ", isCancelled() : " + despatchedFutureCancelled + ", isDone : "+ despatchedFutureIsDone + "\n" + "scheduledPlacedFuture.cancel() returned " + cancelPlaced + ", isCancelled() : " + placedFutureCancelled + ", isDone : " + placedFutureIsDone;
+    }
+
+    public String stopAllSchedulersDeploy() {
+        boolean cancelCreated = false, cancelDespatched = false, cancelPlaced = false;
+        if (this.scheduledCreatedFuture != null) {
+            cancelCreated = this.scheduledCreatedFuture.cancel(false);
+        }
+        if (this.scheduledDespatchedFuture != null) {
+            cancelDespatched = this.scheduledDespatchedFuture.cancel(false);
+        }
+        if (this.scheduledPlacedFuture != null) {
+            cancelPlaced = this.scheduledPlacedFuture.cancel(false);
+        }
+
+        Boolean createdFutureCancelled = scheduledCreatedFuture != null ? scheduledCreatedFuture.isCancelled() : null;
+        Boolean despatchedFutureCancelled = scheduledDespatchedFuture != null ? scheduledDespatchedFuture.isCancelled() : null;
+        Boolean placedFutureCancelled = scheduledPlacedFuture != null ? scheduledPlacedFuture.isCancelled() : null;
+        Boolean createdFutureIsDone = scheduledCreatedFuture != null ? scheduledCreatedFuture.isDone() : null;
+        Boolean despatchedFutureIsDone = scheduledDespatchedFuture != null ? scheduledDespatchedFuture.isDone() : null;
+        Boolean placedFutureIsDone = scheduledPlacedFuture != null ? scheduledPlacedFuture.isDone() : null;
+
+        LOGGER.info("scheduledCreatedFuture.cancel() returned {}, isCancelled() : {}, isDone : {}", cancelCreated, createdFutureCancelled, createdFutureIsDone);
+        LOGGER.info("scheduledDespatchedFuture.cancel() returned {}. isCancelled() : {}, isDone : {}", cancelDespatched, despatchedFutureCancelled, despatchedFutureIsDone);
+        LOGGER.info("scheduledPlacedFuture.cancel() returned {}. isCancelled() : {}, isDone : {}", cancelPlaced, placedFutureCancelled, placedFutureIsDone);
+        return "Stop all schedulers.\nscheduledCreatedFuture.cancel() returned " + cancelCreated + ", isCancelled() : " + createdFutureCancelled + ", isDone : "+ createdFutureIsDone + "\n" + "scheduledDespatchedFuture.cancel() returned " + cancelDespatched + ", isCancelled() : " + despatchedFutureCancelled + ", isDone : "+ despatchedFutureIsDone + "\n" + "scheduledPlacedFuture.cancel() returned " + cancelPlaced + ", isCancelled() : " + placedFutureCancelled + ", isDone : " + placedFutureIsDone;
+    }
+
+    private Date setNextScheduleTime(long fixedDelay) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, (int) fixedDelay);
+        return calendar.getTime();
+    }
+
+    public String getNextScheduleByStatus(String status, String timezone) {
+        if (CREATED.equalsIgnoreCase(status)) {
+            return getNextSchTimeWithSpecificTimezone(this.nextScheduleTimeCreated, timezone);
+        }
+        if (DESPATCHED.equalsIgnoreCase(status)) {
+            return getNextSchTimeWithSpecificTimezone(this.nextScheduleTimeDespatched, timezone);
+        }
+        if (PLACED.equalsIgnoreCase(status)) {
+            return getNextSchTimeWithSpecificTimezone(this.nextScheduleTimePlaced, timezone);
+        }
+        return null;
+    }
+
+    private String getNextSchTimeWithSpecificTimezone(Date nextScheduleTime, String timezone) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(nextScheduleTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone(timezone));
+        return sdf.format(calendar.getTime());
+    }
+}
+
+6. Deleted SchedulerServiceImpl : 
+package com.newbury.revola.service;
+
+import com.newbury.revola.domain.Scheduler;
+import com.newbury.revola.dto.SchedulerDto;
+import com.newbury.revola.repository.SchedulerRepository;
+import java.util.HashSet;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class SchedulerServiceImpl {
+
+    @Autowired
+    private SchedulerRepository schedulerRepository;
+
+    public Scheduler createScheduler(String name, boolean isWorking, long delay, long initialDelay) {
+        Scheduler scheduler = new Scheduler();
+        scheduler.setName(name);
+        scheduler.setWorking(isWorking);
+        scheduler.setDelay(delay);
+        scheduler.setInitialDelay(initialDelay);
+        return schedulerRepository.save(scheduler);
+    }
+
+    public Scheduler findById(int id) {
+        Optional<Scheduler> scheduler = schedulerRepository.findById(id);
+        return scheduler.orElseThrow(NoSuchElementException::new);
+    }
+
+    public Optional<Scheduler> findByName(String name) {
+        return schedulerRepository.findSchedulerByName(name);
+    }
+
+    public Scheduler updateScheduler(String name, boolean isWorking, long delaySeconds, long initialDelay) {
+        Scheduler scheduler = schedulerRepository.findSchedulerByName(name).orElseThrow(NoSuchElementException::new);
+        scheduler.setWorking(isWorking);
+        scheduler.setDelay(delaySeconds);
+        scheduler.setInitialDelay(initialDelay);
+
+        return schedulerRepository.save(scheduler);
+    }
+
+    public Long getDelayByStatus(String status) {
+        return schedulerRepository.getSchedulerDelayByName(status);
+    }
+
+    public Boolean isSchedulerRunning(String status) {
+        return schedulerRepository.isSchedulerRunning(status);
+    }
+
+    public void deleteScheduler(int id) {
+        schedulerRepository.deleteById(id);
+    }
+
+    public Set<SchedulerDto> getAllSchedulers() {
+        Set<SchedulerDto> schedulerDtos = new HashSet<>();
+        List<Scheduler> schedulers = schedulerRepository.findAll();
+        schedulers.forEach(scheduler -> {
+            SchedulerDto dto = new SchedulerDto();
+            dto.setName(scheduler.getName());
+            dto.setRunning(scheduler.isWorking());
+            dto.setDelay(scheduler.getDelay());
+            dto.setInitialDelay(scheduler.getInitialDelay());
+            schedulerDtos.add(dto);
+        });
+        return schedulerDtos;
+    }
+}
+
+7. removed controller : 
+package com.newbury.revola.web.api;
+
+import com.newbury.revola.dto.SchedulerDto;
+import com.newbury.revola.scheduler.task.FetchAssetsSchedulerSync;
+import com.newbury.revola.service.SchedulerServiceImpl;
+import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/process")
+public class AssetsSchedulerController {
+
+    @Autowired
+    private FetchAssetsSchedulerSync assetsSchedulerSync;
+
+    @Autowired
+    private SchedulerServiceImpl schedulerService;
+
+    @PostMapping("/scheduler/start")
+    public ResponseEntity<String> startScheduler(@RequestParam String status, @RequestParam Long delaySeconds) {
+        String response = assetsSchedulerSync.runSchedulerBasedOnStatus(status, delaySeconds);
+        if (response.isEmpty()) {
+            return ResponseEntity.badRequest().body("Incorrect status " + status + " provided");
+        }
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/scheduler/update")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> updateCreatedSyncSchedulers(@RequestParam("status") String status,
+                                            @RequestParam("fixedDelaySec") Long fixedDelaySec) {
+        String response = assetsSchedulerSync.updateSchedulerFixedDelay(status, fixedDelaySec);
+        if (response.isEmpty()) {
+            return ResponseEntity.badRequest().body("Incorrect status " + status + " provided");
+        }
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/scheduler/stop")
+    public ResponseEntity<String> stopScheduler(@RequestParam String status) {
+        String response = assetsSchedulerSync.stopSchedulerBasedOnStatus(status);
+        if (response.isEmpty()) {
+            return ResponseEntity.badRequest().body("Incorrect status " + status + " provided");
+        }
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/scheduler/startAll")
+    public String startAllSchedulers(@RequestParam Long delaySeconds) {
+        return assetsSchedulerSync.startAllSchedulers(delaySeconds);
+    }
+
+    @PostMapping("/scheduler/startAll/sequence")
+    public String startAllSchedulersSequentially(@RequestParam Long delaySeconds) {
+        return assetsSchedulerSync.startAllSchedulersSequentially(delaySeconds);
+    }
+
+    @PostMapping("/scheduler/stopAll")
+    public String stopAllSchedulers() {
+        return assetsSchedulerSync.stopAllSchedulers();
+    }
+
+    @PostMapping("/scheduler/stopAll/deploy")
+    public String stopAllSchedulersForDeploy() {
+        return assetsSchedulerSync.stopAllSchedulersDeploy();
+    }
+
+    @GetMapping("/scheduler/next-schedule-time")
+    public String getNextSchedule(@RequestParam String status, @RequestParam String timezone) {
+        return assetsSchedulerSync.getNextScheduleByStatus(status, timezone);
+    }
+
+    @GetMapping("/scheduler/delay")
+    public String getSchedulerDelay(@RequestParam String status) {
+        return schedulerService.getDelayByStatus(status) + " sec";
+    }
+
+    @GetMapping("/scheduler/running")
+    public Boolean isSchedulerWorking(@RequestParam String status) {
+        return schedulerService.isSchedulerRunning(status);
+    }
+
+    @GetMapping("/scheduler/info/all")
+    public Set<SchedulerDto> getAllSchedulers() {
+        return schedulerService.getAllSchedulers();
+    }
+}
+
+8.  Application.yml file : 
+spring:
+  security:
+    user:
+      name: newbury
+      password: nbrevola@123
+  kafka:
+    bootstrap:
+      servers: b-2.dev-integration-cluste.vk98ru.c2.kafka.eu-west-3.amazonaws.com:9092,b-1.dev-integration-cluste.vk98ru.c2.kafka.eu-west-3.amazonaws.com:9092
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://dev-integration-database.cluster-cfkpe187ujru.eu-west-3.rds.amazonaws.com:5432/nb_revola_dmm
+    username: postgres
+    password: rItGGq2UsPFlvWoLrsTU
+    initialization-mode: ALWAYS
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    generate-ddl: true
+  mail:
+    host: outlook.office365.com
+    username: servicedesk@newburydigital.io
+    password: Vaq76400
+    port: 587
+    properties:
+      mail:
+        protocol: smtp
+        smtp:
+          auth: true
+          ssl:
+            trust: outlook.office365.com
+          starttls:
+            enable: true
+        tls: true
+
+dmm:
+  uri:
+    external: https://dmmtest.ndxdaas.com
+  api:
+    username: WebAPI_Integration
+    password: yP4VtWP4fcsmFgUmgFlF
+  fetch:
+    assets:
+      scheduler: 'on'
+  access:
+    token:
+      endpoint: /rest-api/itsm/v1/users/login
+  rest:
+    api:
+      username: RESTAPI_user
+      password: UKF8qVZer1OxKsgU4v9EFwYQYh6DZE!
+  error:
+    email:
+      to: newburydev@aspiresys.com
+      cc: elvis.david@newburydigital.io
+
+dmms:
+  dmm:
+    - name: UATVFUK
+      fetch:
+        assets: 'on'
+        scheduler: 'on'
+      uri:
+        external: 'https://dmmtest.ndxdaas.com'
+      api:
+        username: 'WebAPI_Integration'
+        password: 'yP4VtWP4fcsmFgUmgFlF'
+      rest:
+        username: 'RESTAPI_user'
+        password: 'UKF8qVZer1OxKsgU4v9EFwYQYh6DZE!'
+      error:
+        email:
+          to: 'sachin.jagtap@aspiresys.com'
+          cc: 'anusuya.palanisamy@aspiresys.com'
+    - name: SBVFGRP
+      fetch:
+        assets: 'on'
+        scheduler: 'on'
+      uri:
+        external: 'https://dmmsandbox.vodafone.myvbmd.com'
+      api:
+        username: 'WebAPI_Integration'
+        password: 'O1TbO7Hgg74xCtbaXg0kv2vGliHvso'
+      rest:
+        username: 'RESTAPI_user'
+        password: 'UKF8qVZer1OxKsgU4v9EFwYQYh6DZE!'
+      error:
+        email:
+          to: 'sachin.jagtap@aspiresys.com'
+          cc: 'anusuya.palanisamy@aspiresys.com'
+    - name: DEMOVFGRP
+      fetch:
+        assets: 'on'
+        scheduler: 'on'
+      uri:
+        external: 'https://dmmpreprod.vodafone.myvbmd.com'
+      api:
+        username: 'WebAPI_Integration'
+        password: 'O1TbO7Hgg74xCtbaXg0kv2vGliHvso'
+      rest:
+        username: 'RESTAPI_user'
+        password: 'UKF8qVZer1OxKsgU4v9EFwYQYh6DZE!'
+      error:
+        email:
+          to: 'sachin.jagtap@aspiresys.com'
+          cc: 'anusuya.palanisamy@aspiresys.com' 
+
+fixeddelay:
+  assets:
+    created: 1800000
+    placed: 1800000
+    despatched: 1800000
+
+initdelay:
+  placed: 600000
+  despatched: 1200000
+
+load-Balancer:
+  url: http://ab05816a-microservice-supp-6255-1109775740.eu-west-3.elb.amazonaws.com
+
+client:
+  access:
+    token:
+      endpoint: http://ab05816a-microservice-supp-6255-1109775740.eu-west-3.elb.amazonaws.com/oauth/token
+
+boomi:
+  access:
+    token:
+      endpoint: https://auth.ndxdaas.com/oauth2/token
+  client:
+    id: 2vm945t6m0ba69dkiqm9smeuq6
+    secret: 1ngvkagobbpma0bvgac45nr36sk2tik9r7nihko797qb862emkde
+  company-user-uuid:
+    api-key: c22f4c98-3237-4aac-b95f-48f323673279
+    api-url: https://apigw-uat.ndxdaas.com/ws/rest/uk/vflaas/nonprod/v1/queryOrganization/companyUserUUIDs
+
+cron:
+  expression:
+    to-fetch-assets:
+      to-create-purchaseOrder: 0 */5 * ? * *
+    to-fetch-customers:
+      to-create-opportunity: 0 */5 * ? * *
+    to-fetch-EarlyTerminationSRData: 0 * * ? * *
+    to-fetch-leaversSRData: 0 */5 * ? * *
+
+9. application-dev.yml file : 
+spring:
+  security:
+    user:
+      name: newbury
+      password: nbrevola@123
+  kafka:
+    bootstrap:
+      servers: localhost:9092
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/nb_revola_dmm
+    username: postgres
+    password: aspire@123
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
+  mail:
+    host: outlook.office365.com
+    username: servicedesk@newburydigital.io
+    password: Vaq76400
+    port: 587
+    properties:
+      mail:
+        protocol: smtp
+        smtp:
+          auth: true
+          ssl:
+            trust: outlook.office365.com
+          starttls:
+            enable: true
+        tls: true
+
+dmm:
+  uri:
+    external: https://dmmtest.ndxdaas.com
+  api:
+    username: WebAPI_Integration
+    password: yP4VtWP4fcsmFgUmgFlF
+  fetch:
+    assets:
+      scheduler: 'on'
+  access:
+    token:
+      endpoint: /rest-api/itsm/v1/users/login
+  rest:
+    api:
+      username: RESTAPI_user
+      password: UKF8qVZer1OxKsgU4v9EFwYQYh6DZE!
+  error:
+    email:
+      to: sachin.jagtap@aspiresys.com
+      cc: anusuya.palanisamy@aspiresys.com
+      
+dmms:
+  dmm:
+    - name: UATVFUK
+      fetch:
+        assets: 'on'
+        scheduler: 'on'
+      uri:
+        external: 'https://dmmtest.ndxdaas.com'
+      api:
+        username: 'WebAPI_Integration'
+        password: 'yP4VtWP4fcsmFgUmgFlF'
+      rest:
+        username: 'RESTAPI_user'
+        password: 'UKF8qVZer1OxKsgU4v9EFwYQYh6DZE!'
+      error:
+        email:
+          to: 'sachin.jagtap@aspiresys.com'
+          cc: 'anusuya.palanisamy@aspiresys.com'
+    - name: SBVFGRP
+      fetch:
+        assets: 'on'
+        scheduler: 'on'
+      uri:
+        external: 'https://dmmsandbox.vodafone.myvbmd.com'
+      api:
+        username: 'WebAPI_Integration'
+        password: 'O1TbO7Hgg74xCtbaXg0kv2vGliHvso'
+      rest:
+        username: 'RESTAPI_user'
+        password: 'UKF8qVZer1OxKsgU4v9EFwYQYh6DZE!'
+      error:
+        email:
+          to: 'sachin.jagtap@aspiresys.com'
+          cc: 'anusuya.palanisamy@aspiresys.com'
+    - name: DEMOVFGRP
+      fetch:
+        assets: 'on'
+        scheduler: 'on'
+      uri:
+        external: 'https://dmmpreprod.vodafone.myvbmd.com'
+      api:
+        username: 'WebAPI_Integration'
+        password: 'O1TbO7Hgg74xCtbaXg0kv2vGliHvso'
+      rest:
+        username: 'RESTAPI_user'
+        password: 'UKF8qVZer1OxKsgU4v9EFwYQYh6DZE!'
+      error:
+        email:
+          to: 'sachin.jagtap@aspiresys.com'
+          cc: 'anusuya.palanisamy@aspiresys.com'
+
+fixeddelay:
+  assets:
+    created: 18000
+    placed: 18000
+    despatched: 18000
+
+initdelay:
+  placed: 6000
+  despatched: 12000
+
+server:
+  port: 9088
+
+load-Balancer:
+  url: http://ab05816a-microservice-supp-6255-1109775740.eu-west-3.elb.amazonaws.com
+
+client:
+  access:
+    token:
+      endpoint: http://localhost:8077/oauth/token
+
+boomi:
+  access:
+    token:
+      endpoint: https://auth.ndxdaas.com/oauth2/token
+  client:
+    id: 2vm945t6m0ba69dkiqm9smeuq6
+    secret: 1ngvkagobbpma0bvgac45nr36sk2tik9r7nihko797qb862emkde
+  company-user-uuid:
+    api-key: c22f4c98-3237-4aac-b95f-48f323673279
+    api-url: https://apigw-uat.ndxdaas.com/ws/rest/uk/vflaas/nonprod/v1/queryOrganization/companyUserUUIDs
+
+cron:
+  expression:
+    to-fetch-assets:
+      to-create-purchaseOrder: 0 * * ? * *
+    to-fetch-customers:
+      to-create-opportunity: 0 * * ? * *
+    to-fetch-EarlyTerminationSRData: 0 * * ? * *
+    to-fetch-leaversSRData: 0 * * ? * *
+
+9. removed dependencies : 
+<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
